@@ -28,6 +28,53 @@
   color: #61dafb;
 }
 
+.header {
+  background: rgb(76, 218, 218);
+
+  /*Vertical Align*/
+  margin: auto;
+  padding: 10px;
+
+  /*Horizontal Align*/
+  text-align: center;
+}
+
+.footer {
+  background: white;
+
+  /*Vertical Align*/
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+
+  /*Horizontal Align*/
+  text-align: center;
+}
+
+.backgroundImage {
+  height: 100%;
+  margin-top: -1%;
+
+  /* The image used */
+  background-image: url('http://localhost:3000/SiteImage2.jpg');
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+span.link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+span.link:hover {
+  color: purple;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
