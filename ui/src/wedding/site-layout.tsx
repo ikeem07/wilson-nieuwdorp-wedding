@@ -12,12 +12,12 @@ const SiteLayout: FC<RouteComponentProps> = (props) => {
   return (
     <Layout style={{height:"100vh"}}>
       <Header className={'header'} style={{height: '3%'}}>
-        <span className={'hover'} onClick={() => setCurrentPage('1')}>
+        <span className={'hover'} style={currentPage === '1' ? {borderBottom: '3px solid black'} : {}} onClick={() => setCurrentPage('1')}>
           <span className={'link-image'}><HomeFilled /></span>{" "}
           <span className={'link'}>Home</span>
         </span>
         {" | "}
-        <span className={'hover'} onClick={() => setCurrentPage('2')}>
+        <span className={'hover'} style={currentPage === '2' ? {borderBottom: '3px solid black'} : {}} onClick={() => setCurrentPage('2')}>
           <span className={'link-image'}><MailFilled /></span>{" "}
           <span className={'link'}>Contact Us</span>
         </span>

@@ -6,7 +6,7 @@ import { callbackify } from 'util';
 const Main: FC<RouteComponentProps | any> = (props) => {
 
   return (
-      <div className={'backgroundImage'} style={{color: 'white'}}>
+      <div className={'backgroundImage'} style={{color: 'white', textAlign: 'center', margin: 'auto', padding: '10px'}}>
         <p>
           When:
           <br/>
