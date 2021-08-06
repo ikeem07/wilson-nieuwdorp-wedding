@@ -29,8 +29,6 @@
 }
 
 .header {
-  background: rgb(76, 218, 218);
-
   /*Vertical Align*/
   margin: auto;
   padding: 10px;
@@ -56,7 +54,10 @@
   margin-top: -1%;
 
   /* The image used */
-  background-image: url('http://localhost:3000/SiteImage2.jpg');
+  /*TEST*/
+  /*background-image: url('http://localhost:3000/images/SiteImage2.jpg');*/
+  /*PROD*/
+  background-image: url(https://www.wilsonnieuwdorpwedding.com/images/background-main.jpg);
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -65,15 +66,18 @@
 }
 
 span.link {
-  color: blue;
-  text-decoration: underline;
+  color: black;
   cursor: pointer;
 }
 
-span.link:hover {
-  color: purple;
+span.link-image {
+  color: red;
+  cursor: pointer;
 }
 
+.hover:hover * {
+  color: purple;
+}
 
 @keyframes App-logo-spin {
   from {
