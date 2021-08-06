@@ -1,11 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Layout, Drawer, Row, Col } from 'antd';
+import { Layout, Drawer, Row } from 'antd';
 import { Icon } from '@mdi/react';
 import { Footer, Content, Header } from 'antd/lib/layout/layout';
 import Main from './main';
+import PhotoViewer from './photo-viewer';
 import ContactUs from './contact-us';
-import { HomeFilled, MailFilled, MenuOutlined } from '@ant-design/icons';
+import { HomeFilled, HomeOutlined, MailFilled, MailOutlined, PictureFilled, PictureOutlined, MenuOutlined } from '@ant-design/icons';
 import { mdiCardsPlayingOutline } from '@mdi/js';
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 
@@ -39,7 +40,7 @@ const SiteLayout: FC<RouteComponentProps> = (props) => {
                     style={{lineHeight: '35px', fontSize: '20px'}} 
                     onClick={() => setCurrentPage('1')}
                   >
-                    <span className={'link-image'}><HomeFilled /></span>{" "}
+                    <span className={'link-image'}><HomeOutlined /></span>{" "}
                     <span className={'link'}>Home</span>
                     {currentPage === '1' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
@@ -47,11 +48,11 @@ const SiteLayout: FC<RouteComponentProps> = (props) => {
                 <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
-                    onClick={() => setCurrentPage('2')}
+                    onClick={() => setCurrentPage('3')}
                   >
-                    <span className={'link-image'}><MailFilled /></span>{" "}
+                    <span className={'link-image'}><MailOutlined /></span>{" "}
                     <span className={'link'}>Contact Us</span>
-                    {currentPage === '2' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
+                    {currentPage === '3' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
               </Drawer>
@@ -65,6 +66,11 @@ const SiteLayout: FC<RouteComponentProps> = (props) => {
               </span>
               {" | "}
               <span className={'hover'} style={currentPage === '2' ? {borderBottom: '3px solid black'} : {}} onClick={() => setCurrentPage('2')}>
+                <span className={'link-image'}><PictureFilled /></span>{" "}
+                <span className={'link'}>Photos</span>
+              </span>
+              {" | "}
+              <span className={'hover'} style={currentPage === '3' ? {borderBottom: '3px solid black'} : {}} onClick={() => setCurrentPage('3')}>
                 <span className={'link-image'}><MailFilled /></span>{" "}
                 <span className={'link'}>Contact Us</span>
               </span>
@@ -73,7 +79,8 @@ const SiteLayout: FC<RouteComponentProps> = (props) => {
         )}
         <Content style={{height: '91%'}}>
           {currentPage === '1' && <Main />}
-          {currentPage === '2' && <ContactUs />}
+          {currentPage === '2' && <PhotoViewer />}
+          {currentPage === '3' && <ContactUs />}
         </Content>
         <Footer className={'footer'} style={{height: '3%'}}>
           <div>Ike {"&"} Joe</div>

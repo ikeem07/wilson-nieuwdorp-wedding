@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 const ContactUs: FC<RouteComponentProps> = (props) => {

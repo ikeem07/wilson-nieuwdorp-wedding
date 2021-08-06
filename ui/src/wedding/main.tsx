@@ -1,7 +1,5 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Row } from 'antd';
-import { callbackify } from 'util';
 
 const Main: FC<RouteComponentProps | any> = (props) => {
 
