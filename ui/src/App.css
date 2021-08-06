@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .App {
   text-align: center;
 }
@@ -29,12 +31,17 @@
 }
 
 .header {
-  /*Vertical Align*/
-  margin: auto;
-  padding: 10px;
-
-  /*Horizontal Align*/
+  z-index: 1;
+  width: "100%";
   text-align: center;
+  background: white;
+}
+
+.header-mobile { 
+  z-index: 1;
+  width: "100%";
+  padding-left: 10px;
+  background: white;
 }
 
 .footer {
@@ -51,7 +58,6 @@
 
 .backgroundImage {
   height: 100%;
-  margin-top: -1%;
 
   /* The image used */
   /*TEST*/

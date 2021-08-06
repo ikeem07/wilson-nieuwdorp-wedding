@@ -6,7 +6,11 @@ import { callbackify } from 'util';
 const Main: FC<RouteComponentProps | any> = (props) => {
 
   return (
-      <div className={'backgroundImage'} style={{color: 'white', textAlign: 'center', margin: 'auto', padding: '10px'}}>
+    <div className={'backgroundImage'} style={{color: 'white', textAlign: 'center', lineHeight: '90vh'}}>
+      <div style={{display: 'inline-block', verticalAlign: 'middle', lineHeight: 'normal'}}>
+        <div style={{fontSize: 'xxx-large', fontFamily: 'MonteCarlo'}}>
+          Ikeem {' & '} Joanna
+        </div>
         <p>
           When:
           <br/>
@@ -18,6 +22,7 @@ const Main: FC<RouteComponentProps | any> = (props) => {
           Philadelphia, PA 19125
         </p>
       </div>
+    </div>
   )
 }
 
