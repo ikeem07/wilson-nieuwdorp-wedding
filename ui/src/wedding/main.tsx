@@ -6,7 +6,7 @@ const Main: FC<RouteComponentProps | any> = (props) => {
   return (
     <div className={'backgroundImage'} style={{color: 'white', textAlign: 'center', lineHeight: '90vh'}}>
       <div style={{display: 'inline-block', verticalAlign: 'middle', lineHeight: 'normal'}}>
-        <div style={{fontSize: 'xxx-large', fontFamily: 'MonteCarlo'}}>
+        <div style={{fontSize: 'xxx-large', fontFamily: 'Great Vibes'}}>
           Ikeem {' & '} Joanna
         </div>
         <p>
