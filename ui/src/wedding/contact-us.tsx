@@ -1,9 +1,15 @@
 import { FC } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { Helmet } from 'react-helmet';
 
 const ContactUs: FC<RouteComponentProps> = (props) => {
   return (
-    <div>CONTACT US!!</div>
+    <>
+      <Helmet>
+        <title>Contact Us</title>
+      </Helmet>
+      <div>CONTACT US!!</div>
+    </>
   )
 }
 
