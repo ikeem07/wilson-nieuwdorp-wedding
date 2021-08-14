@@ -4,6 +4,7 @@ import { Layout, Drawer, Row } from 'antd';
 import { Icon } from '@mdi/react';
 import { Footer, Content, Header } from 'antd/lib/layout/layout';
 import Main from './main';
+import RSVP from './rsvp';
 import Directions from './directions';
 import PhotoViewer from './photo-viewer';
 import ContactUs from './contact-us';
@@ -120,6 +121,7 @@ const SiteLayout: FC<RouteComponentProps> = (props) => {
         )}
         <Content style={{minHeight: '91%'}}>
           {currentPage === '1' && <Main />}
+          {currentPage === '2' && <RSVP/>}
           {currentPage === '3' && <Directions />}
           {currentPage === '4' && <PhotoViewer />}
           {currentPage === '5' && <ContactUs />}
