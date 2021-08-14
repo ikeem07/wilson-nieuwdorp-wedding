@@ -63,7 +63,7 @@
   /*TEST*/
   /*background-image: url('http://localhost:3000/images/background-main.jpg');*/
   /*PROD*/
-  background-image: url(https://www.wilsonnieuwdorpwedding.com/images/background-main.jpg);
+  background-image: url(./assets/images/background-main.jpg);
 
   /* Center and scale the image nicely */
   background-position: center;
