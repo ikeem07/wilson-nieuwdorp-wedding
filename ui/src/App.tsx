@@ -197,7 +197,6 @@ const App: FC<RouteComponentProps> = (props) => {
         )}
         <Content style={{minHeight: '91%'}}>
           <Switch>
-            <Redirect from="/:url*(/+)" to={props.location.pathname.slice(0, -1)} />
             <Route exact path="/">
               <Main />
             </Route>
