@@ -17,7 +17,11 @@ const Main: FC<RouteComponentProps | any> = (props) => {
         <p>
           Where:
           <br/>
-          Philadelphia, PA 19125
+          <a href="https://www.google.com/maps/place/The+Sculpture+Courtyard/@39.9763803,-75.1364325,15z/data=!4m5!3m4!1s0x0:0x44c5162f0b634b77!8m2!3d39.9763471!4d-75.1361584">The Sculpture Courtyard</a>
+          <br/>
+          1714 N Mascher St.
+          <br/>
+          Philadelphia, PA 19122
         </p>
       </div>
     </div>
