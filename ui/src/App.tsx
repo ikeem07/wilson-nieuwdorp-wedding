@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Layout, Drawer, Row } from 'antd';
 import { Footer, Content, Header } from 'antd/lib/layout/layout';
 import { Icon } from '@mdi/react';
