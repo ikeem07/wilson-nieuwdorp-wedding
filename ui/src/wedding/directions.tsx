@@ -32,6 +32,7 @@ const Directions: FC<RouteComponentProps> = (props) => {
       <Row style={{paddingLeft: '2px'}}>
         <Col xs={{ offset: 0, span: 24  }} sm={{ offset: 0, span: 24  }} md={{ offset: 3, span: 18  }} lg={{ offset: 6, span: 12  }} xl={{ offset: 6, span: 12  }}>
           <h2>Parking</h2>
+          <div>Street parking available.</div>
         </Col>
       </Row>
       <Row style={{paddingLeft: '2px'}}>
