@@ -9,7 +9,7 @@ const { ProGallery } = proGallery;
 
 interface ProGalleryItem {
   itemId: string,
-  mediaUrl: string,
+  html: string,
   metadata: {
     type: string,
     height: number,
@@ -51,9 +51,10 @@ const PhotoViewer: FC<RouteComponentProps> = (props) => {
     for (let i = 1; i < 19; i++) {
       var proGalleryItem = {
         itemId: 'engagementPhoto' + i.toString().padStart(2, '0'),
-        mediaUrl: '/images/engagementPhoto' + i.toString().padStart(2, '0') + '.jpg',
+        html: '<img style="height: 200px; width: 300px; object-fit: cover" src="/images/engagementPhoto' + i.toString().padStart(2, '0') + '.jpg" alt="">' + 
+              '</img>',
         metadata: {
-          type: 'image',
+          type: 'text',
           height: 200,
           width: 300,
           title: 'title' + i.toString(),
@@ -64,7 +65,6 @@ const PhotoViewer: FC<RouteComponentProps> = (props) => {
 
       proGalleryItemArray.push(proGalleryItem);
     }
-
     setPhotoItems(proGalleryItemArray);
   }
   
