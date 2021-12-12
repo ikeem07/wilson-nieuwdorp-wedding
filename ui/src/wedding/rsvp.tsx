@@ -116,23 +116,23 @@ const RSVP: FC<RouteComponentProps> = (props) => {
       <Row>
         <Col xs={{ offset: 0, span: 24  }} sm={{ offset: 0, span: 24  }} md={{ offset: 3, span: 18  }} lg={{ offset: 6, span: 12  }} xl={{ offset: 6, span: 12  }}>
           <Form {...layout} validateMessages={validateMessages} onFinish={() => onFinish()}>
-            <Form.Item name="firstName" label="First Name" rules={[{ required: true }]}>
+            <Form.Item name="firstName" label="First Name" className='formItem' rules={[{ required: true }]}>
               <Input value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="lastName" label="Last Name" rules={[{ required: true }]}>
+            <Form.Item name="lastName" label="Last Name" className='formItem' rules={[{ required: true }]}>
               <Input value={lastName} onChange={(e) => setLastName(e.target.value)}/>
             </Form.Item>
             <Divider/>
-            <Form.Item name="addressLine1" label="Address Line1" rules={[{ required: true }]}>
+            <Form.Item name="addressLine1" label="Address Line1" className='formItem' rules={[{ required: true }]}>
               <Input value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} placeholder="Street address, P.O. box"/>
             </Form.Item>
-            <Form.Item name="addressLine2" label="Address Line2">
+            <Form.Item name="addressLine2" label="Address Line2" className='formItem'>
               <Input value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} placeholder="Apartment, suite, unit, building, floor, etc."/>
             </Form.Item>
-            <Form.Item name="city" label="City" rules={[{ required: true }]}>
+            <Form.Item name="city" label="City" className='formItem' rules={[{ required: true }]}>
               <Input value={city} onChange={(e) => setCity(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="state" label="State/Province" rules={[{ required: true }]}>
+            <Form.Item name="state" label="State/Province" className='formItem' rules={[{ required: true }]}>
               <AutoComplete 
                 options={stateOptions}
                 onSearch={onSearchState}
@@ -140,14 +140,14 @@ const RSVP: FC<RouteComponentProps> = (props) => {
                 onChange={(e) => setState(e)}
               />
             </Form.Item>
-            <Form.Item name="zip" label="ZIP/Postal Code">
+            <Form.Item name="zip" label="ZIP/Postal Code" className='formItem'>
               <Input value={zip} onChange={(e) => setZip(e.target.value)}/>
             </Form.Item>
             <Divider/>
-            <Form.Item name="email" label="Email">
+            <Form.Item name="email" label="Email" className='formItem'>
               <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="cell" label="Cell">
+            <Form.Item name="cell" label="Cell" className='formItem'>
               <Input value={cell} onChange={(e) => setCell(e.target.value)}/>
             </Form.Item>
             <Button type="primary" htmlType="submit" disabled={saveButtonDisabled}>Save</Button>
