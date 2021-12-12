@@ -18,6 +18,7 @@ import { ROUTE_PATHS } from './common/constants';
 const App: FC<RouteComponentProps> = (props) => {
   const [currentPage, setCurrentPage] = useState<string>('');
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
+  const [showRSVP, setShowRSVP] = useState<boolean>(false);
   const screens = useBreakpoint();
 
   useEffect(() => {
@@ -103,7 +104,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     {currentPage === '1' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
-                <Row>
+                {showRSVP && <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
                     onClick={() => {setCurrentPage('2'); routeToPage('2')}}
@@ -112,7 +113,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     <span className={'link'}>RSVP</span>
                     {currentPage === '2' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
-                </Row>
+                </Row>}
                 <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
@@ -157,7 +158,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 <span className={'link'}>Home</span>
               </span>
               {" | "}
-              <span
+              {showRSVP && <span
                 className={'hover'}
                 style={currentPage === '2' ? {borderBottom: '3px solid black'} : {}}
                 onClick={() => {setCurrentPage('2'); routeToPage('2')}}
@@ -165,7 +166,8 @@ const App: FC<RouteComponentProps> = (props) => {
                 <span className={'link-image'}><PictureFilled /></span>{" "}
                 <span className={'link'}>RSVP</span>
               </span>
-              {" | "}
+              }
+              {showRSVP && " | "}
               <span
                 className={'hover'}
                 style={currentPage === '3' ? {borderBottom: '3px solid black'} : {}}

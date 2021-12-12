@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "weddingAppApi",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2021-12-04T04:27:24.358Z"
+}

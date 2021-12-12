@@ -77,12 +77,12 @@ span.link {
 }
 
 span.link-image {
-  color: red;
+  color: #64242e;
   cursor: pointer;
 }
 
 .hover:hover * {
-  color: purple;
+  color: #a2bba3;
 }
 
 @keyframes App-logo-spin {
