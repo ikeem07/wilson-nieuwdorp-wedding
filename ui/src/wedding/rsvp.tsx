@@ -20,6 +20,8 @@ const RSVP: FC<RouteComponentProps> = (props) => {
   const [zip, setZip] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [cell, setCell] = useState<string>('');
+  const [saveButtonText, setSaveButtonText] = useState<string>('Save');
+  const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState<boolean>(false);
 
 
@@ -48,29 +50,8 @@ const RSVP: FC<RouteComponentProps> = (props) => {
     setStateOptions(stateArray);
   }
 
-  const testCall = async () => {
-    console.log('Start Save');
-    try {
-      await DataStore.save(
-        new Guest({
-          firstName: 'Ike',
-          lastName: 'Wilson',
-          streetAddress1: '1726 Delmar Dr.',
-          city: 'Folcroft',
-          state: 'PA',
-          zip: '19032',
-          createdAt: moment.utc().format()
-        })
-      )
-      console.log('End Save'); 
-    }
-    catch (error) {
-      console.log('Error saving post', error)
-    }
-  }
-
   const onFinish = async () => {
-    console.log('setFirstName', firstName);
+    setSaveButtonLoading(true);
     setSaveButtonDisabled(true);
     try {
       await DataStore.save(
@@ -88,19 +69,18 @@ const RSVP: FC<RouteComponentProps> = (props) => {
         })
       ).then((result) => {
         message.success('Contact Info Saved!');
+        setSaveButtonText('Saved!');
       }).catch((error) => {
         message.error('Error Saving Contact Info :(');
-      })
+        setSaveButtonText('Save');
+        setSaveButtonDisabled(false);
+      });
 
-      setSaveButtonDisabled(false);
+      setSaveButtonLoading(false);
     }
     catch (error) {
       console.log('ERROR : ', error);
     }
-  }
-
-  const post = (that: any) => {
-    console.log('HEY!', that);
   }
 
   return (
@@ -150,7 +130,11 @@ const RSVP: FC<RouteComponentProps> = (props) => {
             <Form.Item name="cell" label="Cell" className='formItem'>
               <Input value={cell} onChange={(e) => setCell(e.target.value)}/>
             </Form.Item>
-            <Button type="primary" htmlType="submit" disabled={saveButtonDisabled}>Save</Button>
+            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px'}}>
+              <Form.Item className='formItem' >
+                <Button type="primary" htmlType="submit" loading={saveButtonLoading} disabled={saveButtonDisabled}>{saveButtonText}</Button>
+              </Form.Item>
+            </div>
           </Form>
         </Col>
       </Row>
