@@ -84,7 +84,7 @@ const RSVP: FC<RouteComponentProps> = (props) => {
   }
 
   return (
-    <>
+    <div style={{backgroundImage: 'linear-gradient(180deg, #a2bba3, #64242e)'}}>
       <Helmet>
         <title>RSVP</title>
       </Helmet>
@@ -94,7 +94,13 @@ const RSVP: FC<RouteComponentProps> = (props) => {
         </Col>
       </Row>
       <Row>
-        <Col xs={{ offset: 0, span: 24  }} sm={{ offset: 0, span: 24  }} md={{ offset: 3, span: 18  }} lg={{ offset: 6, span: 12  }} xl={{ offset: 6, span: 12  }}>
+        <Col xs={{ offset: 0, span: 24  }}
+          sm={{ offset: 0, span: 24  }}
+          md={{ offset: 3, span: 18  }}
+          lg={{ offset: 6, span: 12  }}
+          xl={{ offset: 6, span: 12  }}
+          style={{backgroundImage: 'linear-gradient(180deg, #a2bba3, #64242e)'}}
+        >
           <Form {...layout} validateMessages={validateMessages} onFinish={() => onFinish()}>
             <Form.Item name="firstName" label="First Name" className='formItem' rules={[{ required: true }]}>
               <Input value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
@@ -138,7 +144,7 @@ const RSVP: FC<RouteComponentProps> = (props) => {
           </Form>
         </Col>
       </Row>
-    </>
+    </div>
   )
 }
 

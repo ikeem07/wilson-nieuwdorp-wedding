@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 const Directions: FC<RouteComponentProps> = (props) => {
   return (
-    <>
+    <div style={{backgroundColor: '#a2bba3'}}>
       <Helmet>
         <title>Directions</title>
       </Helmet>
@@ -74,7 +74,7 @@ const Directions: FC<RouteComponentProps> = (props) => {
           </div>
         </Col>
       </Row>
-    </>
+    </div>
   )
 }
 
