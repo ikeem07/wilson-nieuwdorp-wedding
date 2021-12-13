@@ -11,7 +11,7 @@ const Directions: FC<RouteComponentProps> = (props) => {
       </Helmet>
       <Row>
         <Col offset={6} span={12}>
-          <div style={{fontSize: 'xxx-large', textAlign: 'center'}}>Directions</div>
+          <div style={{fontSize: 'xxx-large', textAlign: 'center', fontFamily: 'Great Vibes'}}>Directions</div>
         </Col>
       </Row>
       <Row  style={{paddingLeft: '2px'}}>

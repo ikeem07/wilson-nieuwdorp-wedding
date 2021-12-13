@@ -18,7 +18,7 @@ import { ROUTE_PATHS } from './common/constants';
 const App: FC<RouteComponentProps> = (props) => {
   const [currentPage, setCurrentPage] = useState<string>('');
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
-  const [showRSVP, setShowRSVP] = useState<boolean>(false);
+  const [showRSVP, setShowRSVP] = useState<boolean>(true);
   const screens = useBreakpoint();
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     onClick={() => {setCurrentPage('2'); routeToPage('2')}}
                   >
                     <span className={'link-image'}><PictureOutlined /></span>{" "}
-                    <span className={'link'}>RSVP</span>
+                    <span className={'link'}>Address Book</span>
                     {currentPage === '2' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>}
@@ -164,7 +164,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 onClick={() => {setCurrentPage('2'); routeToPage('2')}}
               >
                 <span className={'link-image'}><PictureFilled /></span>{" "}
-                <span className={'link'}>RSVP</span>
+                <span className={'link'}>Address Book</span>
               </span>
               }
               {showRSVP && " | "}
