@@ -85,6 +85,10 @@ span.link-image {
   color: #a2bba3;
 }
 
+.formLabel {
+  font-size: 16px
+}
+
 .formItem {
   margin-left: 3px;
   margin-right: 3px;

@@ -102,23 +102,23 @@ const RSVP: FC<RouteComponentProps> = (props) => {
           style={{backgroundImage: 'linear-gradient(180deg, #a2bba3, #64242e)'}}
         >
           <Form {...layout} validateMessages={validateMessages} onFinish={() => onFinish()}>
-            <Form.Item name="firstName" label="First Name" className='formItem' rules={[{ required: true }]}>
+            <Form.Item name="firstName" label={<div className='formLabel'>First Name</div>} className='formItem' rules={[{ required: true }]}>
               <Input value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="lastName" label="Last Name" className='formItem' rules={[{ required: true }]}>
+            <Form.Item name="lastName" label={<div className='formLabel'>Last Name</div>} className='formItem' rules={[{ required: true }]}>
               <Input value={lastName} onChange={(e) => setLastName(e.target.value)}/>
             </Form.Item>
             <Divider/>
-            <Form.Item name="addressLine1" label="Address Line1" className='formItem' rules={[{ required: true }]}>
+            <Form.Item name="addressLine1" label={<div className='formLabel'>Address Line1</div>} className='formItem' rules={[{ required: true }]}>
               <Input value={addressLine1} onChange={(e) => setAddressLine1(e.target.value)} placeholder="Street address, P.O. box"/>
             </Form.Item>
-            <Form.Item name="addressLine2" label="Address Line2" className='formItem'>
+            <Form.Item name="addressLine2" label={<div className='formLabel'>Address Line2</div>} className='formItem'>
               <Input value={addressLine2} onChange={(e) => setAddressLine2(e.target.value)} placeholder="Apartment, suite, unit, building, floor, etc."/>
             </Form.Item>
-            <Form.Item name="city" label="City" className='formItem' rules={[{ required: true }]}>
+            <Form.Item name="city" label={<div className='formLabel'>City</div>} className='formItem' rules={[{ required: true }]}>
               <Input value={city} onChange={(e) => setCity(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="state" label="State/Province" className='formItem' rules={[{ required: true }]}>
+            <Form.Item name="state" label={<div className='formLabel'>State/Province</div>} className='formItem' rules={[{ required: true }]}>
               <AutoComplete 
                 options={stateOptions}
                 onSearch={onSearchState}
@@ -126,14 +126,14 @@ const RSVP: FC<RouteComponentProps> = (props) => {
                 onChange={(e) => setState(e)}
               />
             </Form.Item>
-            <Form.Item name="zip" label="ZIP/Postal Code" className='formItem'>
+            <Form.Item name="zip" label={<div className='formLabel'>ZIP/Postal Code</div>} className='formItem'>
               <Input value={zip} onChange={(e) => setZip(e.target.value)}/>
             </Form.Item>
             <Divider/>
-            <Form.Item name="email" label="Email" className='formItem'>
+            <Form.Item name="email" label={<div className='formLabel'>Email</div>} className='formItem'>
               <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="cell" label="Cell" className='formItem'>
+            <Form.Item name="cell" label={<div className='formLabel'>Cell</div>} className='formItem'>
               <Input value={cell} onChange={(e) => setCell(e.target.value)}/>
             </Form.Item>
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px'}}>
