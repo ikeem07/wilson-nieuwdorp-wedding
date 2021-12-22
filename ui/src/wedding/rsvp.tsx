@@ -1,6 +1,7 @@
 import { FC, SetStateAction, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Row, Col, Button, Form, Input, Divider, AutoComplete, message } from 'antd';
+import { Row, Col, Button, Form, Input, Divider, AutoComplete, message, Tooltip } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 import { Amplify } from '@aws-amplify/core';
 import awsExports from '../aws-exports';
@@ -94,12 +95,19 @@ const RSVP: FC<RouteComponentProps> = (props) => {
         </Col>
       </Row>
       <Row>
+        <Col offset={8} span={10}>
+          <p>
+            Please fill out our address book with the name and address that you want your wedding invitation
+            sent to.
+          </p>
+        </Col>
+      </Row>
+      <Row>
         <Col xs={{ offset: 0, span: 24  }}
           sm={{ offset: 0, span: 24  }}
           md={{ offset: 3, span: 18  }}
           lg={{ offset: 6, span: 12  }}
           xl={{ offset: 6, span: 12  }}
-          style={{backgroundImage: 'linear-gradient(180deg, #a2bba3, #64242e)'}}
         >
           <Form {...layout} validateMessages={validateMessages} onFinish={() => onFinish()}>
             <Form.Item name="firstName" label={<div className='formLabel'>First Name</div>} className='formItem' rules={[{ required: true }]}>
@@ -130,10 +138,15 @@ const RSVP: FC<RouteComponentProps> = (props) => {
               <Input value={zip} onChange={(e) => setZip(e.target.value)}/>
             </Form.Item>
             <Divider/>
-            <Form.Item name="email" label={<div className='formLabel'>Email</div>} className='formItem'>
+            <Form.Item name="info" label={<div></div>} colon={false} style={{margin: 0, color: 'blanchedalmond'}}>
+              <Tooltip title="Include email and/or cell number to receive wedding updates. We will not call your cell.">
+                <InfoCircleOutlined/>
+              </Tooltip>
+            </Form.Item>
+            <Form.Item name="email" label={<div className='formLabel' style={{color: 'blanchedalmond'}}>Email</div>} className='formItem'>
               <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
             </Form.Item>
-            <Form.Item name="cell" label={<div className='formLabel'>Cell</div>} className='formItem'>
+            <Form.Item name="cell" label={<div className='formLabel' style={{color: 'blanchedalmond'}}>Cell</div>} className='formItem'>
               <Input value={cell} onChange={(e) => setCell(e.target.value)}/>
             </Form.Item>
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px'}}>
