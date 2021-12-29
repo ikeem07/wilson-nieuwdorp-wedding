@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Row, Col } from 'antd';
+import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import { Helmet } from 'react-helmet';
 import 'pro-gallery/dist/statics/main.css';
 
@@ -23,11 +24,20 @@ interface ProGalleryItem {
 
 const PhotoViewer: FC<RouteComponentProps> = (props) => {
   const [photoItems, setPhotoItems] = useState<ProGalleryItem[]>([]);
+  const screens = useBreakpoint();
 
   const options = {
     galleryLauout: -1,
     imageMargin: 3,
     hoveringBehaviour: 'DISAPPEARS',
+    imageLoadingMode: 'MAIN_COLOR',
+    scrollAnimation: 'SLIDE_UP',
+    overlayAnimation: 'SLIDE_UP',
+    imageHoverAnimation: 'SHRINK',
+  }
+  const cellOptions = {
+    galleryLauout: -1,
+    imageMargin: 3,
     imageLoadingMode: 'MAIN_COLOR',
     scrollAnimation: 'SLIDE_UP',
     overlayAnimation: 'SLIDE_UP',
@@ -68,6 +78,30 @@ const PhotoViewer: FC<RouteComponentProps> = (props) => {
     setPhotoItems(proGalleryItemArray);
   }
   
+  const returnPhotoViewer = () => {
+    if (screens.xs) {
+      return <Row>
+        <ProGallery
+          items={photoItems}
+          options={cellOptions}
+          container={container}
+          eventsListener={eventsListener}
+          scrollingElement={scrollingElement}
+        />
+      </Row>
+    } else {
+      return <Row>
+        <ProGallery
+          items={photoItems}
+          options={options}
+          container={container}
+          eventsListener={eventsListener}
+          scrollingElement={scrollingElement}
+        />
+      </Row>
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -78,15 +112,7 @@ const PhotoViewer: FC<RouteComponentProps> = (props) => {
           <div style={{fontSize: 'xxx-large', textAlign: 'center', fontFamily: 'Great Vibes'}}>Engagement Photos</div>
         </Col>
       </Row>
-      <Row>
-        <ProGallery
-          items={photoItems}
-          options={options}
-          container={container}
-          eventsListener={eventsListener}
-          scrollingElement={scrollingElement}
-        />
-      </Row>
+      {returnPhotoViewer()}
     </>
   )
 }
