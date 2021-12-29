@@ -51,7 +51,7 @@ const PhotoViewer: FC<RouteComponentProps> = (props) => {
     for (let i = 1; i < 19; i++) {
       var proGalleryItem = {
         itemId: 'engagementPhoto' + i.toString().padStart(2, '0'),
-        html: '<img style="height: 200px; width: 300px; object-fit: cover" src="/images/engagementPhoto' + i.toString().padStart(2, '0') + '.jpg" alt="">' + 
+        html: '<img style="height: 200px; width: 300px; object-fit: cover" src="https://wilson-wedding-photos.s3.us-east-2.amazonaws.com/engagementPhoto' + i.toString().padStart(2, '0') + '.jpg" alt="">' + 
               '</img>',
         metadata: {
           type: 'text',
