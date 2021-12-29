@@ -5,7 +5,15 @@ import { Layout, Drawer, Row } from 'antd';
 import { Footer, Content, Header } from 'antd/lib/layout/layout';
 import { Icon } from '@mdi/react';
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
-import { HomeFilled, HomeOutlined, MailFilled, MailOutlined, PictureFilled, PictureOutlined, MenuOutlined } from '@ant-design/icons';
+import {
+  HomeFilled,
+  HomeOutlined,
+  MailFilled,
+  MailOutlined,
+  PictureFilled,
+  PictureOutlined,
+  MenuOutlined,
+  GlobalOutlined } from '@ant-design/icons';
 import { mdiCardsPlayingOutline, mdiMapMarkerRadius, mdiMapMarkerRadiusOutline } from '@mdi/js';
 import './App.css';
 import Main from './wedding/main';
@@ -128,7 +136,9 @@ const App: FC<RouteComponentProps> = (props) => {
                     style={{lineHeight: '35px', fontSize: '20px'}}
                     onClick={() => {setCurrentPage('6'); routeToPage('6')}}
                   >
+                    <span className={'link-image'}><GlobalOutlined /></span>{" "}
                     <span className={'link'}>Accommodations</span>
+                    {currentPage === '6' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
                 <Row>
@@ -190,6 +200,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 style={currentPage === '6' ? {borderBottom: '3px solid black'} : {}}
                 onClick={() => {setCurrentPage('6'); routeToPage('6')}}
               >
+                <span className={'link-image'}><GlobalOutlined /></span>{" "}
                 <span className={'link'}>Accommodations</span>
               </span>
               {showRSVP && " | "}
