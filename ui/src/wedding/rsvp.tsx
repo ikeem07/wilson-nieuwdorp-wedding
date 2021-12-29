@@ -139,8 +139,8 @@ const RSVP: FC<RouteComponentProps> = (props) => {
             </Form.Item>
             <Divider/>
             <Form.Item name="info" label={<div></div>} colon={false} style={{margin: 0, color: 'blanchedalmond'}}>
-              <Tooltip title="Include email and/or cell number to receive wedding updates. We will not call your cell.">
-                <InfoCircleOutlined/>
+              <Tooltip title="Include email and/or cell number to receive wedding updates. We will not call your cell." className='formItem'>
+                <InfoCircleOutlined/> {" "} Why this info?
               </Tooltip>
             </Form.Item>
             <Form.Item name="email" label={<div className='formLabel' style={{color: 'blanchedalmond'}}>Email</div>} className='formItem'>
