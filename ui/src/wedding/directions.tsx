@@ -7,7 +7,7 @@ const Directions: FC<RouteComponentProps> = (props) => {
   return (
     <div style={{backgroundColor: '#a2bba3'}}>
       <Helmet>
-        <title>Directions</title>
+        <title>Venue and Directions</title>
       </Helmet>
       <Row>
         <Col offset={6} span={12}>

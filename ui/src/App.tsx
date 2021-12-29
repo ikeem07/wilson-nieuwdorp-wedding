@@ -10,6 +10,7 @@ import { mdiCardsPlayingOutline, mdiMapMarkerRadius, mdiMapMarkerRadiusOutline }
 import './App.css';
 import Main from './wedding/main';
 import RSVP from './wedding/rsvp';
+import Accommodations from './wedding/accommodations';
 import Directions from './wedding/directions';
 import PhotoViewer from './wedding/photo-viewer';
 import ContactUs from './wedding/contact-us';
@@ -28,6 +29,9 @@ const App: FC<RouteComponentProps> = (props) => {
         break;
       case ROUTE_PATHS.RSVP:
         setCurrentPage('2');
+        break;
+      case ROUTE_PATHS.ACCOMMODATIONS:
+        setCurrentPage('6');
         break;
       case ROUTE_PATHS.DIRECTIONS:
         setCurrentPage('3');
@@ -58,6 +62,11 @@ const App: FC<RouteComponentProps> = (props) => {
       case '2':
         props.history.push({
           pathname: ROUTE_PATHS.RSVP
+        })
+        break;
+      case '6':
+        props.history.push({
+          pathname: ROUTE_PATHS.ACCOMMODATIONS
         })
         break;
       case '3':
@@ -117,10 +126,18 @@ const App: FC<RouteComponentProps> = (props) => {
                 <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
+                    onClick={() => {setCurrentPage('6'); routeToPage('6')}}
+                  >
+                    <span className={'link'}>Accommodations</span>
+                  </span>
+                </Row>
+                <Row>
+                  <span
+                    style={{lineHeight: '35px', fontSize: '20px'}}
                     onClick={() => {setCurrentPage('3'); routeToPage('3')}}
                   >
                     <span className={'link-image'}><Icon path={mdiMapMarkerRadiusOutline} size={.9}/></span>{" "}
-                    <span className={'link'}>Directions</span>
+                    <span className={'link'}>Venue</span>
                     {currentPage === '3' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
@@ -134,7 +151,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     {currentPage === '4' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
-                <Row>
+                {/*<Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
                     onClick={() => {setCurrentPage('5'); routeToPage('5')}}
@@ -143,7 +160,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     <span className={'link'}>Contact Us</span>
                     {currentPage === '5' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
-                </Row>
+                </Row>*/}
               </Drawer>
           </Header>
         ) : (
@@ -170,11 +187,19 @@ const App: FC<RouteComponentProps> = (props) => {
               {showRSVP && " | "}
               <span
                 className={'hover'}
+                style={currentPage === '6' ? {borderBottom: '3px solid black'} : {}}
+                onClick={() => {setCurrentPage('6'); routeToPage('6')}}
+              >
+                <span className={'link'}>Accommodations</span>
+              </span>
+              {showRSVP && " | "}
+              <span
+                className={'hover'}
                 style={currentPage === '3' ? {borderBottom: '3px solid black'} : {}}
                 onClick={() => {setCurrentPage('3'); routeToPage('3')}}
               >
                 <span className={'link-image'}><Icon path={mdiMapMarkerRadius} size={.6}/></span>{" "}
-                <span className={'link'}>Directions</span>
+                <span className={'link'}>Venue</span>
               </span>
               {" | "}
               <span
@@ -185,7 +210,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 <span className={'link-image'}><PictureFilled /></span>{" "}
                 <span className={'link'}>Photos</span>
               </span>
-              {" | "}
+              {/*{" | "}
               <span
                 className={'hover'}
                 style={currentPage === '5' ? {borderBottom: '3px solid black'} : {}}
@@ -193,7 +218,7 @@ const App: FC<RouteComponentProps> = (props) => {
               >
                 <span className={'link-image'}><MailFilled /></span>{" "}
                 <span className={'link'}>Contact Us</span>
-              </span>
+            </span>*/}
             </div>
           </Header>
         )}
@@ -207,6 +232,9 @@ const App: FC<RouteComponentProps> = (props) => {
             </Route>
             <Route exact path={ROUTE_PATHS.RSVP}>
               <RSVP />
+            </Route>
+            <Route exact path={ROUTE_PATHS.ACCOMMODATIONS}>
+              <Accommodations />
             </Route>
             <Route exact path={ROUTE_PATHS.DIRECTIONS}>
               <Directions />
