@@ -17,7 +17,7 @@ const Main: FC<RouteComponentProps | any> = (props) => {
           <p>
             When:
             <br/>
-            Saturday, July 11th, 2022
+            Saturday, June 11th, 2022
           </p>
           <p>
             Where:
