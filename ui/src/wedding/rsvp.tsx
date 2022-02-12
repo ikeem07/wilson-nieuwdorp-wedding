@@ -87,7 +87,7 @@ const RSVP: FC<RouteComponentProps> = (props) => {
   return (
     <div style={{backgroundImage: 'linear-gradient(180deg, #a2bba3, #64242e)'}}>
       <Helmet>
-        <title>RSVP</title>
+        <title>Address Book</title>
       </Helmet>
       <Row>
         <Col offset={6} span={12}>

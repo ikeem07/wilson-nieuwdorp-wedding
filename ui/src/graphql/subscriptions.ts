@@ -13,11 +13,12 @@ export const onCreateGuest = /* GraphQL */ `
       city
       state
       zip
-      plusOne
+      email
+      phone
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
     }
   }
@@ -33,11 +34,12 @@ export const onUpdateGuest = /* GraphQL */ `
       city
       state
       zip
-      plusOne
+      email
+      phone
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
     }
   }
@@ -53,11 +55,12 @@ export const onDeleteGuest = /* GraphQL */ `
       city
       state
       zip
-      plusOne
+      email
+      phone
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
     }
   }

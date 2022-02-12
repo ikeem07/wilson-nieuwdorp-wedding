@@ -16,11 +16,12 @@ export const createGuest = /* GraphQL */ `
       city
       state
       zip
-      plusOne
+      email
+      phone
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
     }
   }
@@ -39,11 +40,12 @@ export const updateGuest = /* GraphQL */ `
       city
       state
       zip
-      plusOne
+      email
+      phone
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
     }
   }
@@ -62,11 +64,12 @@ export const deleteGuest = /* GraphQL */ `
       city
       state
       zip
-      plusOne
+      email
+      phone
+      createdAt
       _version
       _deleted
       _lastChangedAt
-      createdAt
       updatedAt
     }
   }

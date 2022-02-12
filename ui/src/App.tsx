@@ -18,6 +18,7 @@ import { mdiCardsPlayingOutline, mdiMapMarkerRadius, mdiMapMarkerRadiusOutline }
 import './App.css';
 import Main from './wedding/main';
 import RSVP from './wedding/rsvp';
+import RSVP2 from './wedding/rsvp2';
 import Accommodations from './wedding/accommodations';
 import Directions from './wedding/directions';
 import PhotoViewer from './wedding/photo-viewer';
@@ -49,6 +50,9 @@ const App: FC<RouteComponentProps> = (props) => {
         break;
       case ROUTE_PATHS.CONTACT_US:
         setCurrentPage('5');
+        break;
+      case ROUTE_PATHS.RSVP2:
+        setCurrentPage('7');
         break;
       default:
         setCurrentPage('1');
@@ -92,6 +96,11 @@ const App: FC<RouteComponentProps> = (props) => {
           pathname: ROUTE_PATHS.CONTACT_US
         })
         break;
+      case '7':
+        props.history.push({
+          pathname: ROUTE_PATHS.RSVP2
+        })
+        break;
     }
   }
 
@@ -121,6 +130,16 @@ const App: FC<RouteComponentProps> = (props) => {
                     {currentPage === '1' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
+                {showRSVP && <Row>
+                  <span
+                    style={{lineHeight: '35px', fontSize: '20px'}}
+                    onClick={() => {setCurrentPage('2'); routeToPage('2')}}
+                  >
+                    <span className={'link-image'}><PictureOutlined /></span>{" "}
+                    <span className={'link'}>RSVP</span>
+                    {currentPage === '7' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
+                  </span>
+                </Row>}
                 {showRSVP && <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
@@ -187,6 +206,16 @@ const App: FC<RouteComponentProps> = (props) => {
               {" | "}
               {showRSVP && <span
                 className={'hover'}
+                style={currentPage === '7' ? {borderBottom: '3px solid black'} : {}}
+                onClick={() => {setCurrentPage('7'); routeToPage('7')}}
+              >
+                <span className={'link-image'}><PictureFilled /></span>{" "}
+                <span className={'link'}>RSVP</span>
+              </span>
+              }
+              {showRSVP && " | "}
+              {showRSVP && <span
+                className={'hover'}
                 style={currentPage === '2' ? {borderBottom: '3px solid black'} : {}}
                 onClick={() => {setCurrentPage('2'); routeToPage('2')}}
               >
@@ -240,6 +269,9 @@ const App: FC<RouteComponentProps> = (props) => {
             </Route>
             <Route exact path={ROUTE_PATHS.HOME}>
               <Main />
+            </Route>
+            <Route exact path={ROUTE_PATHS.RSVP2}>
+              <RSVP2 />
             </Route>
             <Route exact path={ROUTE_PATHS.RSVP}>
               <RSVP />
