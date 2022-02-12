@@ -2,6 +2,88 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getRSVP = /* GraphQL */ `
+  query GetRSVP($id: ID!) {
+    getRSVP(id: $id) {
+      id
+      groupNum
+      firstName
+      secondName
+      searchName
+      attending
+      songList
+      plusOne
+      addedByUser
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listRSVPs = /* GraphQL */ `
+  query ListRSVPs(
+    $filter: ModelRSVPFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRSVPs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        groupNum
+        firstName
+        secondName
+        searchName
+        attending
+        songList
+        plusOne
+        addedByUser
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncRSVPS = /* GraphQL */ `
+  query SyncRSVPS(
+    $filter: ModelRSVPFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncRSVPS(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        groupNum
+        firstName
+        secondName
+        searchName
+        attending
+        songList
+        plusOne
+        addedByUser
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getGuest = /* GraphQL */ `
   query GetGuest($id: ID!) {
     getGuest(id: $id) {

@@ -4,8 +4,28 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 
 
+type RSVPMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
 type GuestMetaData = {
   readOnlyFields: 'updatedAt';
+}
+
+export declare class RSVP {
+  readonly id: string;
+  readonly groupNum?: string;
+  readonly firstName: string;
+  readonly secondName: string;
+  readonly searchName?: string;
+  readonly attending: boolean;
+  readonly songList?: string;
+  readonly plusOne?: boolean;
+  readonly addedByUser?: boolean;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<RSVP, RSVPMetaData>);
+  static copyOf(source: RSVP, mutator: (draft: MutableModel<RSVP, RSVPMetaData>) => MutableModel<RSVP, RSVPMetaData> | void): RSVP;
 }
 
 export declare class Guest {

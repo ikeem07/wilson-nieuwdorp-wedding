@@ -1,11 +1,11 @@
 import { FC, SetStateAction, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Row, Col, Button, Form, Input, Divider, AutoComplete, message, Tooltip } from 'antd';
+import { Row, Col, Button, Form, Input, Divider, AutoComplete, message, Tooltip, Card } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 import awsExports from '../aws-exports';
 import Amplify, { DataStore, API, graphqlOperation } from 'aws-amplify';
-import { Guest } from '../models';
+import { Guest, RSVP } from '../models';
 import moment from 'moment';
 import stateList from '../assets/json/stateList.json'
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
@@ -31,19 +31,17 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
 
   //Queries
   const findRSVP = `
-    query MyQuery {
-      listGuests(filter: {firstName: {contains: "${rsvpSearchCriteria}"}}) {
+    query listRSVPs {
+      listRSVPs(filter: {searchName: {contains: "${rsvpSearchCriteria}"}}) {
         items {
-          city
-          createdAt
-          email
+          addedByUser
+          attending
           firstName
-          lastName
-          phone
-          state
-          streetAddress1
-          streetAddress2
-          zip
+          groupNum
+          plusOne
+          secondName
+          songList
+          updatedAt
         }
       }
     }
@@ -74,17 +72,37 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     setStateOptions(stateArray);
   }
 
+  const convertToRSVPObject = (graphqlObject:any) => {
+    const rsvpsStringify = JSON.stringify(graphqlObject);
+    const rsvpsJSONify = JSON.parse(rsvpsStringify);
+    const rsvpObject = rsvpsJSONify.data.listRSVPs.items as RSVP[];
+
+    return rsvpObject
+  }
+
   const onFinish = async () => {
     setSaveButtonLoading(true);
 
     try {
-      const todos = await API.graphql(graphqlOperation(findRSVP));
-      console.log('FIND-ME', todos);
+      if (rsvpSearchCriteria.trim() !== '') {
+        // fetch('https://axj2yvcatbfonpgqqxjhcfhf7m.appsync-api.us-east-2.amazonaws.com/graphql', {
+        //   method: 'GET',
+        //   headers: { "Content-Type": "application/json"},
+        //   body: JSON.stringify({query: findRSVP})
+        // }).then((result) => {
+        //   console.log('FIND-ME', result);
+        // })
+
+        const rsvps = await API.graphql(graphqlOperation(findRSVP));
+        const rsvpObject = convertToRSVPObject(rsvps);
+        console.log('FIND-ME', rsvpObject.length);
+      }
 
       setSaveButtonLoading(false);
     }
     catch (error) {
       console.log('ERROR : ', error);
+      setSaveButtonLoading(false);
     }
   }
 
@@ -113,7 +131,11 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           xl={{ offset: 6, span: 12  }}
         >
           <Form {...layout} validateMessages={validateMessages} onFinish={() => onFinish()}>
-            <Form.Item name="firstName" label={<div className='formLabel'>First Name</div>} className='formItem' rules={[{ required: true }]}>
+            <Form.Item 
+              name="firstName" 
+              label={<div className='formLabel'>Last Name</div>} 
+              className='formItem' 
+              rules={[{ required: true, min: 3 }]}>
               <Input value={rsvpSearchCriteria} onChange={(e) => setRSVPSearchCriteria(e.target.value)}/>
             </Form.Item>
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px'}}>
@@ -122,6 +144,14 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
               </Form.Item>
             </div>
           </Form>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Card></Card>
+        </Col>
+        <Col>
+          <Card></Card>
         </Col>
       </Row>
     </div>
