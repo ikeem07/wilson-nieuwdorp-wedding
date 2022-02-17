@@ -3,17 +3,13 @@
   "serviceConfiguration": {
     "apiName": "weddingAppApi",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-eb5637b8-5228-437e-b555-cdff9c5300a3/amplify/backend/api/weddingAppApi/schema.graphql",
+    "gqlSchemaPath": "C:\\Git\\wilson-nieuwdorp-wedding\\ui\\amplify\\backend\\api\\weddingAppApi\\schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",
       "expirationTime": 30
     },
-    "conflictResolution": {
-      "defaultResolutionStrategy": {
-        "type": "AUTOMERGE"
-      }
-    },
+    "conflictResolution": {},
     "additionalAuthTypes": [
       {
         "mode": "AWS_IAM"

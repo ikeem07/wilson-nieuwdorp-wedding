@@ -14,9 +14,6 @@ export const getRSVP = /* GraphQL */ `
       songList
       plusOne
       addedByUser
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -39,48 +36,10 @@ export const listRSVPs = /* GraphQL */ `
         songList
         plusOne
         addedByUser
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncRSVPS = /* GraphQL */ `
-  query SyncRSVPS(
-    $filter: ModelRSVPFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncRSVPS(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        groupNum
-        firstName
-        secondName
-        searchName
-        attending
-        songList
-        plusOne
-        addedByUser
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
@@ -98,9 +57,6 @@ export const getGuest = /* GraphQL */ `
       email
       phone
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
       updatedAt
     }
   }
@@ -124,48 +80,9 @@ export const listGuests = /* GraphQL */ `
         email
         phone
         createdAt
-        _version
-        _deleted
-        _lastChangedAt
         updatedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncGuests = /* GraphQL */ `
-  query SyncGuests(
-    $filter: ModelGuestFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncGuests(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        firstName
-        lastName
-        streetAddress1
-        streetAddress2
-        city
-        state
-        zip
-        email
-        phone
-        createdAt
-        _version
-        _deleted
-        _lastChangedAt
-        updatedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
