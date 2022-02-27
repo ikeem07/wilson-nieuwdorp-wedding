@@ -1,7 +1,7 @@
 import { FC, SetStateAction, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Row, Col, Button, Form, Input, Divider, AutoComplete, message, Tooltip, Card } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { PlusSquareOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 import awsExports from '../aws-exports';
 import Amplify, { DataStore, API, graphqlOperation } from 'aws-amplify';
@@ -21,16 +21,19 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [rsvpSearchCriteria, setRSVPSearchCriteria] = useState<string>('');
-  const [rsvpQuestData, setRsvpQuestData] = useState<RSVP[]>([]);
-  const [versionNum, setVersionNum] = useState<number>();
+  const [rsvpGuestData, setRsvpGuestData] = useState<RSVP[]>([]);
+  const [dataVersionGuest1, setDataVersionGuest1] = useState<number>(0);
+  const [dataVersionGuest2, setDataVersionGuest2] = useState<number>(0);
   const [attendingPerson1, setAttendingPerson1] = useState<boolean>(false);
   const [attendingPerson2, setAttendingPerson2] = useState<boolean>(false);
   const [songRequestsPerson1, setSongRequestsPerson1] = useState<string>('');
   const [songRequestsPerson2, setSongRequestsPerson2] = useState<string>('');
-  const [cell, setCell] = useState<string>('');
-  const [saveButtonText, setSaveButtonText] = useState<string>('Search');
+  const [showPlusOneButton, setShowPlusOneButton] = useState<boolean>(true);
+  const [savePlusOne, setSavePlusOne] = useState<boolean>(false);
   const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState<boolean>(false);
+
+  const [form] = Form.useForm();
 
   //Queries
   const FIND_RSVP = `
@@ -46,6 +49,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           secondName
           songList
           updatedAt
+          _version
         }
       }
     }
@@ -56,14 +60,28 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     wrapperCol: { span: 12 },
   };
 
-  const validateMessages = {
-    required: '${label} is required!'
-  }
-
   useEffect(() => {
     Amplify.configure(awsExports);
     DataStore.clear();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (rsvpGuestData.length >= 1) {
+      setDataVersionGuest1(rsvpGuestData[0]._version as number)
+      setAttendingPerson1(rsvpGuestData[0].attending)
+      setSongRequestsPerson1(rsvpGuestData[0].songList ?? '')
+    }
+
+    if (rsvpGuestData.length === 2) {
+      setDataVersionGuest2(rsvpGuestData[1]._version as number);
+      setAttendingPerson2(rsvpGuestData[1].attending)
+      setSongRequestsPerson2(rsvpGuestData[1].songList ?? '')
+    }
+  }, [rsvpGuestData])
+
+  function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
 
   const onSearchState = (searchText: string) => {
     let stateArray: SetStateAction<{ value: string; }[]> = []
@@ -76,42 +94,87 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     setStateOptions(stateArray);
   }
 
+  const updateRSVPRecord = async (
+    id: string,
+    _version: number,
+    addedByUser: boolean,
+    songList: string,
+    attending: boolean,
+    guestOne: boolean
+  ) => {
+    try {
+      const result = await API.graphql(graphqlOperation(updateRSVP, { 
+        input: { 
+          id: id, 
+          _version: _version,
+          addedByUser: addedByUser,
+          songList: songList,
+          attending: attending
+        }
+      }));
+      
+      if (guestOne) {
+        const rsvpsStringify = JSON.stringify(result);
+        const rsvpsJSONify = JSON.parse(rsvpsStringify);
+        setDataVersionGuest1(rsvpsJSONify?.data?.updateRSVP?._version);
+      } else {
+        const rsvpsStringify = JSON.stringify(result);
+        const rsvpsJSONify = JSON.parse(rsvpsStringify);
+        setDataVersionGuest2(rsvpsJSONify?.data?.updateRSVP?._version);
+      }
+    }
+    catch (error) {
+      message.error('Error trying to save your RSVP');
+    }
+  }
+
   const setRSVP = async () => {
-    console.log('FIND-ME-rsvpQuestData', rsvpQuestData.length);
-    console.log('FIND-ME-id', rsvpQuestData[0].id);
+    console.log('FIND-ME-rsvpGuestData', rsvpGuestData.length);
+    console.log('FIND-ME-id', rsvpGuestData[0].id);
     console.log('FIND-ME-songList', songRequestsPerson1);
     console.log('FIND-ME-attending', attendingPerson1);
-    if (rsvpQuestData.length === 1) {
-      await API.graphql(graphqlOperation(updateRSVP, { 
-        input: { 
-          id: rsvpQuestData[0].id, 
-          //_version: 10,
-          addedByUser: false,
-          songList: songRequestsPerson1,
-          attending: attendingPerson1
-        }
-      }));
-    } else if (rsvpQuestData.length === 2) {
-      //Person 1
-      await API.graphql(graphqlOperation(updateRSVP, { 
-        input: { 
-          id: rsvpQuestData[0].id, 
-          addedByUser: false,
-          songList: songRequestsPerson1,
-          attending: attendingPerson1
-        }
-      }));
 
-      //Person 2
-      await API.graphql(graphqlOperation(updateRSVP, { 
-        input: { 
-          id: rsvpQuestData[1].id, 
-          addedByUser: false,
-          songList: songRequestsPerson2,
-          attending: attendingPerson2
-        }
-      }));
+    if (!savePlusOne) {
+      if (rsvpGuestData.length === 1) {
+        await updateRSVPRecord(
+          rsvpGuestData[0].id, 
+          dataVersionGuest1,
+          false,
+          songRequestsPerson1,
+          attendingPerson1,
+          true
+        )
+        
+        message.success('Your RSVP has been saved successfully!');
+      } else if (rsvpGuestData.length === 2) {
+        //Person 1
+        await updateRSVPRecord(
+          rsvpGuestData[0].id,
+          dataVersionGuest1,
+          false,
+          songRequestsPerson1,
+          attendingPerson1,
+          true
+        );
+
+        //Person 2
+        await updateRSVPRecord(
+          rsvpGuestData[1].id,
+          dataVersionGuest2,
+          false,
+          songRequestsPerson2,
+          attendingPerson2,
+          false
+        );
+
+        message.success('Your RSVP has been saved successfully!');
+      }
     }
+  }
+
+  const addPlusOne = () => {
+    setSavePlusOne(true);
+    setShowPlusOneButton(false);
   }
 
   const convertToRSVPObject = (graphqlObject:any) => {
@@ -128,7 +191,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     try {
       if (rsvpSearchCriteria.trim() !== '') {
         const rsvps = await API.graphql(graphqlOperation(FIND_RSVP));
-        setRsvpQuestData(convertToRSVPObject(rsvps));
+        setRsvpGuestData(convertToRSVPObject(rsvps));
       }
 
       setSaveButtonLoading(false);
@@ -156,7 +219,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           lg={{ offset: 6, span: 12  }}
           xl={{ offset: 6, span: 12  }}
         >
-          <Form {...layout} validateMessages={validateMessages} layout="vertical" onFinish={() => onFinish()}>
+          <Form {...layout} layout="vertical" onFinish={() => onFinish()}>
             <Form.Item 
               name="firstName" 
               label={<div><b>Enter your first or last name to find your RSVP record:</b></div>} 
@@ -165,19 +228,19 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
             </Form.Item>
             <div>
               <Form.Item className='formItem' >
-                <Button type="primary" htmlType="submit" loading={saveButtonLoading} disabled={saveButtonDisabled}>{saveButtonText}</Button>
+                <Button type="primary" htmlType="submit" loading={saveButtonLoading} disabled={saveButtonDisabled}>Search</Button>
               </Form.Item>
             </div>
           </Form>
         </Col>
       </Row>
-      {rsvpQuestData.length === 2 &&
+      {rsvpGuestData.length === 2 &&
         <Row justify='center'>
           <Col>
             <p>Who will be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</p>
           </Col>
         </Row>}
-      {rsvpQuestData.length === 1 &&
+      {rsvpGuestData.length === 1 &&
         <Row justify='center'>
           <Col>
             <p>Will you be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</p>
@@ -198,14 +261,14 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           lg={{ span: 8  }}
           xl={{ span: 8  }}
         >
-          {rsvpQuestData.length >= 1 
+          {rsvpGuestData.length >= 1 
           ? <Card
-             title={`${rsvpQuestData[0]?.firstName} ${rsvpQuestData[0]?.secondName}`}
+             title={`${rsvpGuestData[0]?.firstName} ${rsvpGuestData[0]?.secondName}`}
              style={{marginRight: '3px'}}
             >
               <Row>
                 <Col>
-                  <Checkbox value={attendingPerson1} onChange={(e) => setAttendingPerson1(e.target.checked)}>
+                  <Checkbox checked={attendingPerson1} onChange={(e) => setAttendingPerson1(e.target.checked)}>
                     Attending?
                   </Checkbox>
                 </Col>
@@ -237,14 +300,64 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           lg={{ span: 8  }}
           xl={{ span: 8  }}
         >
-          {rsvpQuestData.length > 1
+          {rsvpGuestData[0]?.plusOne && rsvpGuestData?.length < 2 && showPlusOneButton
+          ? <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+              <Button 
+                size='large' 
+                style={{display: 'inline-block',verticalAlign: 'middle'}}
+                onClick={() => addPlusOne()}>
+                <PlusSquareOutlined/>ADD A PLUS ONE
+              </Button>
+            </div>
+          : <div></div>
+          }
+          {!showPlusOneButton
+          ? <Form form={form} name={'plusOneForm'} layout={'vertical'}>
+              <Row>
+                <Col>
+                  <Form.Item
+                    label={'First Name'}
+                    style={{marginRight: '3px'}}
+                  >
+                    <Input></Input>
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item
+                    label={'Last Name'}
+                  >
+                    <Input></Input>
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item
+                label={'Attending?'}
+              >
+                <Checkbox checked={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
+                </Checkbox>
+              </Form.Item>
+              <Form.Item
+                label={'Any song requests for the special day?'}
+              >
+                <TextArea
+                    value={songRequestsPerson2}
+                    onChange={(e) => setSongRequestsPerson2(e.target.value)}
+                    rows={4}
+                    style={{width: '30vw', maxWidth: '400px'}}
+                  >
+                </TextArea>
+              </Form.Item>
+            </Form>
+          : <></>
+          }
+          {rsvpGuestData.length > 1
           ? <Card
-              title={`${rsvpQuestData[1]?.firstName} ${rsvpQuestData[1]?.secondName}`}
+              title={`${rsvpGuestData[1]?.firstName} ${rsvpGuestData[1]?.secondName}`}
               style={{marginLeft: '3px'}}
             >
               <Row>
                 <Col>
-                  <Checkbox value={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
+                  <Checkbox checked={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
                     Attending?
                   </Checkbox>
                 </Col>
@@ -277,9 +390,11 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         ></Col>
       </Row>
       <br/>
-      <Row justify='center'>
-        <Button type='primary' onClick={() => setRSVP()}>RSVP</Button>
-      </Row>
+      {rsvpGuestData.length > 0 && 
+        <Row justify='center'>
+          <Button type='primary' onClick={() => setRSVP()}>RSVP</Button>
+        </Row>
+      }
       <Row style={{height: '200px'}}></Row>
     </div>
   )

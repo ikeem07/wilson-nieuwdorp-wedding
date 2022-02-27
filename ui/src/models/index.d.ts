@@ -22,6 +22,7 @@ export declare class RSVP {
   readonly songList?: string;
   readonly plusOne?: boolean;
   readonly addedByUser?: boolean;
+  readonly _version?: number;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<RSVP, RSVPMetaData>);
@@ -40,6 +41,7 @@ export declare class Guest {
   readonly email?: string;
   readonly phone?: string;
   readonly createdAt: string;
+  readonly _version?: number;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Guest, GuestMetaData>);
   static copyOf(source: Guest, mutator: (draft: MutableModel<Guest, GuestMetaData>) => MutableModel<Guest, GuestMetaData> | void): Guest;

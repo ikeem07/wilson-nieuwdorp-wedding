@@ -12,6 +12,7 @@ export type CreateRSVPInput = {
   songList?: string | null,
   plusOne?: boolean | null,
   addedByUser?: boolean | null,
+  _version?: number | null,
 };
 
 export type ModelRSVPConditionInput = {
@@ -86,6 +87,9 @@ export type RSVP = {
   songList?: string | null,
   plusOne?: boolean | null,
   addedByUser?: boolean | null,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
   createdAt: string,
   updatedAt: string,
 };
@@ -100,10 +104,12 @@ export type UpdateRSVPInput = {
   songList?: string | null,
   plusOne?: boolean | null,
   addedByUser?: boolean | null,
+  _version?: number | null,
 };
 
 export type DeleteRSVPInput = {
   id: string,
+  _version?: number | null,
 };
 
 export type CreateGuestInput = {
@@ -118,6 +124,7 @@ export type CreateGuestInput = {
   email?: string | null,
   phone?: string | null,
   createdAt?: string | null,
+  _version?: number | null,
 };
 
 export type ModelGuestConditionInput = {
@@ -149,6 +156,9 @@ export type Guest = {
   email?: string | null,
   phone?: string | null,
   createdAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
   updatedAt: string,
 };
 
@@ -164,10 +174,12 @@ export type UpdateGuestInput = {
   email?: string | null,
   phone?: string | null,
   createdAt?: string | null,
+  _version?: number | null,
 };
 
 export type DeleteGuestInput = {
   id: string,
+  _version?: number | null,
 };
 
 export type ModelRSVPFilterInput = {
@@ -205,6 +217,7 @@ export type ModelRSVPConnection = {
   __typename: "ModelRSVPConnection",
   items:  Array<RSVP | null >,
   nextToken?: string | null,
+  startedAt?: number | null,
 };
 
 export type ModelGuestFilterInput = {
@@ -228,6 +241,7 @@ export type ModelGuestConnection = {
   __typename: "ModelGuestConnection",
   items:  Array<Guest | null >,
   nextToken?: string | null,
+  startedAt?: number | null,
 };
 
 export type CreateRSVPMutationVariables = {
@@ -247,6 +261,9 @@ export type CreateRSVPMutation = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -269,6 +286,9 @@ export type UpdateRSVPMutation = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -291,6 +311,9 @@ export type DeleteRSVPMutation = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -315,6 +338,9 @@ export type CreateGuestMutation = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
@@ -338,6 +364,9 @@ export type UpdateGuestMutation = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
@@ -361,6 +390,9 @@ export type DeleteGuestMutation = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
@@ -381,6 +413,9 @@ export type GetRSVPQuery = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -406,10 +441,46 @@ export type ListRSVPsQuery = {
       songList?: string | null,
       plusOne?: boolean | null,
       addedByUser?: boolean | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncRSVPSQueryVariables = {
+  filter?: ModelRSVPFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncRSVPSQuery = {
+  syncRSVPS?:  {
+    __typename: "ModelRSVPConnection",
+    items:  Array< {
+      __typename: "RSVP",
+      id: string,
+      groupNum?: string | null,
+      firstName: string,
+      secondName: string,
+      searchName?: string | null,
+      attending: boolean,
+      songList?: string | null,
+      plusOne?: boolean | null,
+      addedByUser?: boolean | null,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -431,6 +502,9 @@ export type GetGuestQuery = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
@@ -457,9 +531,46 @@ export type ListGuestsQuery = {
       email?: string | null,
       phone?: string | null,
       createdAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncGuestsQueryVariables = {
+  filter?: ModelGuestFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncGuestsQuery = {
+  syncGuests?:  {
+    __typename: "ModelGuestConnection",
+    items:  Array< {
+      __typename: "Guest",
+      id: string,
+      firstName: string,
+      lastName: string,
+      streetAddress1: string,
+      streetAddress2?: string | null,
+      city: string,
+      state: string,
+      zip?: string | null,
+      email?: string | null,
+      phone?: string | null,
+      createdAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+    startedAt?: number | null,
   } | null,
 };
 
@@ -475,6 +586,9 @@ export type OnCreateRSVPSubscription = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -492,6 +606,9 @@ export type OnUpdateRSVPSubscription = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -509,6 +626,9 @@ export type OnDeleteRSVPSubscription = {
     songList?: string | null,
     plusOne?: boolean | null,
     addedByUser?: boolean | null,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -528,6 +648,9 @@ export type OnCreateGuestSubscription = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
@@ -546,6 +669,9 @@ export type OnUpdateGuestSubscription = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
@@ -564,6 +690,9 @@ export type OnDeleteGuestSubscription = {
     email?: string | null,
     phone?: string | null,
     createdAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
     updatedAt: string,
   } | null,
 };
