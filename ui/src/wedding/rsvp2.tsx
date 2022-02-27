@@ -1,7 +1,7 @@
 import { FC, SetStateAction, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Row, Col, Button, Form, Input, Divider, AutoComplete, message, Tooltip, Card } from 'antd';
-import { PlusSquareOutlined } from '@ant-design/icons';
+import { PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 import awsExports from '../aws-exports';
 import Amplify, { DataStore, API, graphqlOperation } from 'aws-amplify';
@@ -10,7 +10,7 @@ import moment from 'moment';
 import stateList from '../assets/json/stateList.json'
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 import GraphQLAPI, { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import { listGuests, updateRSVP } from '../graphql'
+import { listGuests, updateRSVP, createRSVP } from '../graphql'
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import TextArea from 'antd/lib/input/TextArea';
 
@@ -18,8 +18,6 @@ Amplify.configure(awsExports);
 
 const RSVP2: FC<RouteComponentProps> = (props) => {
   const [stateOptions, setStateOptions] = useState<{ value: string }[]>([]);
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
   const [rsvpSearchCriteria, setRSVPSearchCriteria] = useState<string>('');
   const [rsvpGuestData, setRsvpGuestData] = useState<RSVP[]>([]);
   const [dataVersionGuest1, setDataVersionGuest1] = useState<number>(0);
@@ -32,6 +30,10 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   const [savePlusOne, setSavePlusOne] = useState<boolean>(false);
   const [saveButtonLoading, setSaveButtonLoading] = useState<boolean>(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState<boolean>(false);
+  const [plusOneFirstName, setPlusOneFirstName] = useState<string>('');
+  const [plusOneSecondName, setPlusOneSecondName] = useState<string>('');
+  const [plusOneAttending, setPlusOneAttending] = useState<boolean>(false);
+  const [plusOneSongRequests, setPlusOneSongRequests] = useState<string>('');
 
   const [form] = Form.useForm();
 
@@ -169,12 +171,43 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
 
         message.success('Your RSVP has been saved successfully!');
       }
+    } else {
+      await updateRSVPRecord(
+        rsvpGuestData[0].id, 
+        dataVersionGuest1,
+        false,
+        songRequestsPerson1,
+        attendingPerson1,
+        true
+      )
+
+      const result = await API.graphql(graphqlOperation(createRSVP, { 
+        input: {  
+          addedByUser: true,
+          attending: plusOneAttending,
+          firstName: plusOneFirstName,
+          groupNum: rsvpGuestData[0].groupNum,
+          searchName: plusOneFirstName.toLowerCase() + ' ' + plusOneSecondName.toLowerCase(),
+          secondName: plusOneSecondName,
+          songList: plusOneSongRequests
+        }
+      }));
+
+      console.log('FIND-ME_createdUser', result);
+      const rsvpsStringify = JSON.stringify(result);
+      const rsvpsJSONify = JSON.parse(rsvpsStringify);
+      setRsvpGuestData([...rsvpGuestData, rsvpsJSONify.data.createRSVP as RSVP])
     }
   }
 
   const addPlusOne = () => {
     setSavePlusOne(true);
     setShowPlusOneButton(false);
+  }
+
+  const removePlusOne = () => {
+    setSavePlusOne(false);
+    setShowPlusOneButton(true);
   }
 
   const convertToRSVPObject = (graphqlObject:any) => {
@@ -221,7 +254,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         >
           <Form {...layout} layout="vertical" onFinish={() => onFinish()}>
             <Form.Item 
-              name="firstName" 
+              name="searchName" 
               label={<div><b>Enter your first or last name to find your RSVP record:</b></div>} 
               rules={[{ required: true, min: 3 }]}>
               <Input value={rsvpSearchCriteria} onChange={(e) => setRSVPSearchCriteria(e.target.value)}/>
@@ -255,7 +288,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           xl={{ span: 4  }}
         ></Col>
         <Col
-          xs={{ span: 11  }}
+          xs={{ span: 11 }}
           sm={{ span: 9  }}
           md={{ span: 9  }}
           lg={{ span: 8  }}
@@ -314,39 +347,63 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           {!showPlusOneButton
           ? <Form form={form} name={'plusOneForm'} layout={'vertical'}>
               <Row>
-                <Col>
+                <Col span={9}>
                   <Form.Item
                     label={'First Name'}
                     style={{marginRight: '3px'}}
                   >
-                    <Input></Input>
+                    <Input 
+                      value={plusOneFirstName}
+                      onChange={(e) => setPlusOneFirstName(e.target.value)}
+                    ></Input>
                   </Form.Item>
                 </Col>
-                <Col>
+                <Col span={9}>
                   <Form.Item
                     label={'Last Name'}
                   >
-                    <Input></Input>
+                    <Input 
+                      value={plusOneSecondName}
+                      onChange={(e) => setPlusOneSecondName(e.target.value)}
+                    ></Input>
                   </Form.Item>
                 </Col>
               </Row>
-              <Form.Item
-                label={'Attending?'}
-              >
-                <Checkbox checked={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
-                </Checkbox>
-              </Form.Item>
-              <Form.Item
-                label={'Any song requests for the special day?'}
-              >
-                <TextArea
-                    value={songRequestsPerson2}
-                    onChange={(e) => setSongRequestsPerson2(e.target.value)}
-                    rows={4}
-                    style={{width: '30vw', maxWidth: '400px'}}
+              <Row>
+                <Col span={9}>
+                  <Form.Item
+                    label={'Attending?'}
                   >
-                </TextArea>
-              </Form.Item>
+                    <Checkbox checked={plusOneAttending} onChange={(e) => setPlusOneAttending(e.target.checked)}>
+                    </Checkbox>
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    label={'Any song requests for the special day?'}
+                  >
+                    <TextArea
+                        value={plusOneSongRequests}
+                        onChange={(e) => setPlusOneSongRequests(e.target.value)}
+                        rows={4}
+                        style={{width: '15vw', maxWidth: '400px'}}
+                      >
+                    </TextArea>
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Button 
+                    size='large' 
+                    style={{display: 'inline-block',verticalAlign: 'middle'}}
+                    onClick={() => removePlusOne()}
+                    danger
+                  >
+                    <MinusSquareOutlined/>REMOVE A PLUS ONE
+                  </Button>
+                </div>
+              </Row>
             </Form>
           : <></>
           }
