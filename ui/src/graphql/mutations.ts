@@ -17,9 +17,6 @@ export const createRSVP = /* GraphQL */ `
       songList
       plusOne
       addedByUser
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -40,9 +37,6 @@ export const updateRSVP = /* GraphQL */ `
       songList
       plusOne
       addedByUser
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -63,9 +57,6 @@ export const deleteRSVP = /* GraphQL */ `
       songList
       plusOne
       addedByUser
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -88,9 +79,6 @@ export const createGuest = /* GraphQL */ `
       email
       phone
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
       updatedAt
     }
   }
@@ -112,9 +100,6 @@ export const updateGuest = /* GraphQL */ `
       email
       phone
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
       updatedAt
     }
   }
@@ -136,9 +121,6 @@ export const deleteGuest = /* GraphQL */ `
       email
       phone
       createdAt
-      _version
-      _deleted
-      _lastChangedAt
       updatedAt
     }
   }

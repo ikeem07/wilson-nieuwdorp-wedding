@@ -1,6 +1,16 @@
 import { FC, SetStateAction, useEffect, useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { Row, Col, Button, Form, Input, Divider, AutoComplete, message, Tooltip, Card } from 'antd';
+import { 
+  Row, 
+  Col, 
+  Button, 
+  Form, 
+  Input,
+  message, 
+  Popconfirm, 
+  Card,
+  List 
+} from 'antd';
 import { PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet';
 import awsExports from '../aws-exports';
@@ -10,7 +20,7 @@ import moment from 'moment';
 import stateList from '../assets/json/stateList.json'
 import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplify/datastore";
 import GraphQLAPI, { GRAPHQL_AUTH_MODE } from '@aws-amplify/api-graphql';
-import { listGuests, updateRSVP, createRSVP } from '../graphql'
+import { listRSVPs, updateRSVP, createRSVP, deleteRSVP } from '../graphql'
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import TextArea from 'antd/lib/input/TextArea';
 
@@ -34,6 +44,8 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   const [plusOneSecondName, setPlusOneSecondName] = useState<string>('');
   const [plusOneAttending, setPlusOneAttending] = useState<boolean>(false);
   const [plusOneSongRequests, setPlusOneSongRequests] = useState<string>('');
+  const [showRSVPList, setShowRSVPList] = useState<boolean>(false);
+  const [listData, setlistData] = useState<RSVP[]>([]);
 
   const [form] = Form.useForm();
 
@@ -51,7 +63,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           secondName
           songList
           updatedAt
-          _version
+          
         }
       }
     }
@@ -69,13 +81,14 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
 
   useEffect(() => {
     if (rsvpGuestData.length >= 1) {
-      setDataVersionGuest1(rsvpGuestData[0]._version as number)
+      //setDataVersionGuest1(rsvpGuestData[0]._version as number)
       setAttendingPerson1(rsvpGuestData[0].attending)
       setSongRequestsPerson1(rsvpGuestData[0].songList ?? '')
+      setShowRSVPList(false);
     }
 
     if (rsvpGuestData.length === 2) {
-      setDataVersionGuest2(rsvpGuestData[1]._version as number);
+      //setDataVersionGuest2(rsvpGuestData[1]._version as number);
       setAttendingPerson2(rsvpGuestData[1].attending)
       setSongRequestsPerson2(rsvpGuestData[1].songList ?? '')
     }
@@ -98,7 +111,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
 
   const updateRSVPRecord = async (
     id: string,
-    _version: number,
+    //_version: number,
     addedByUser: boolean,
     songList: string,
     attending: boolean,
@@ -108,7 +121,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       const result = await API.graphql(graphqlOperation(updateRSVP, { 
         input: { 
           id: id, 
-          _version: _version,
+          //_version: _version,
           addedByUser: addedByUser,
           songList: songList,
           attending: attending
@@ -118,11 +131,11 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       if (guestOne) {
         const rsvpsStringify = JSON.stringify(result);
         const rsvpsJSONify = JSON.parse(rsvpsStringify);
-        setDataVersionGuest1(rsvpsJSONify?.data?.updateRSVP?._version);
+        //setDataVersionGuest1(rsvpsJSONify?.data?.updateRSVP?._version);
       } else {
         const rsvpsStringify = JSON.stringify(result);
         const rsvpsJSONify = JSON.parse(rsvpsStringify);
-        setDataVersionGuest2(rsvpsJSONify?.data?.updateRSVP?._version);
+        //setDataVersionGuest2(rsvpsJSONify?.data?.updateRSVP?._version);
       }
     }
     catch (error) {
@@ -131,16 +144,11 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   }
 
   const setRSVP = async () => {
-    console.log('FIND-ME-rsvpGuestData', rsvpGuestData.length);
-    console.log('FIND-ME-id', rsvpGuestData[0].id);
-    console.log('FIND-ME-songList', songRequestsPerson1);
-    console.log('FIND-ME-attending', attendingPerson1);
-
     if (!savePlusOne) {
       if (rsvpGuestData.length === 1) {
         await updateRSVPRecord(
           rsvpGuestData[0].id, 
-          dataVersionGuest1,
+          //dataVersionGuest1,
           false,
           songRequestsPerson1,
           attendingPerson1,
@@ -152,7 +160,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         //Person 1
         await updateRSVPRecord(
           rsvpGuestData[0].id,
-          dataVersionGuest1,
+          //dataVersionGuest1,
           false,
           songRequestsPerson1,
           attendingPerson1,
@@ -162,7 +170,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         //Person 2
         await updateRSVPRecord(
           rsvpGuestData[1].id,
-          dataVersionGuest2,
+          //dataVersionGuest2,
           false,
           songRequestsPerson2,
           attendingPerson2,
@@ -174,7 +182,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     } else {
       await updateRSVPRecord(
         rsvpGuestData[0].id, 
-        dataVersionGuest1,
+        //dataVersionGuest1,
         false,
         songRequestsPerson1,
         attendingPerson1,
@@ -193,11 +201,26 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         }
       }));
 
-      console.log('FIND-ME_createdUser', result);
       const rsvpsStringify = JSON.stringify(result);
       const rsvpsJSONify = JSON.parse(rsvpsStringify);
       setRsvpGuestData([...rsvpGuestData, rsvpsJSONify.data.createRSVP as RSVP])
     }
+  }
+
+  const deletePlusOne = async () => {
+    const rsvpDetails = {
+      id: rsvpGuestData[1].id,
+      //_version: rsvpGuestData[1]._version
+    };
+
+    const deletedTodo = await API.graphql({ query: deleteRSVP, variables: {input: rsvpDetails}});
+
+    // const result = await API.graphql(graphqlOperation(deleteRSVP, {
+    //   input: {
+    //     id: rsvpGuestData[1].id,
+    //     _version: rsvpGuestData[1]._version
+    //   }
+    // }))
   }
 
   const addPlusOne = () => {
@@ -218,19 +241,31 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     return rsvpObject
   }
 
+  const loadupRSVPCards = async (listItem: RSVP) => {
+    const result = await API.graphql(graphqlOperation(listRSVPs, { 
+      filter: {  
+        groupNum: {
+          eq: listItem.groupNum
+        }
+      }
+    }));
+    setRsvpGuestData(convertToRSVPObject(result));
+  }
+
   const onFinish = async () => {
     setSaveButtonLoading(true);
 
     try {
       if (rsvpSearchCriteria.trim() !== '') {
         const rsvps = await API.graphql(graphqlOperation(FIND_RSVP));
-        setRsvpGuestData(convertToRSVPObject(rsvps));
+        setlistData(convertToRSVPObject(rsvps));
+        //setRsvpGuestData(convertToRSVPObject(rsvps));
+        setShowRSVPList(true);
       }
 
       setSaveButtonLoading(false);
     }
     catch (error) {
-      console.log('ERROR : ', error);
       setSaveButtonLoading(false);
     }
   }
@@ -256,7 +291,9 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
             <Form.Item 
               name="searchName" 
               label={<div><b>Enter your first or last name to find your RSVP record:</b></div>} 
-              rules={[{ required: true, min: 3 }]}>
+              rules={[{ required: true, min: 3 }]}
+              style={{marginLeft: '3px', marginRight: '3px'}}
+            >
               <Input value={rsvpSearchCriteria} onChange={(e) => setRSVPSearchCriteria(e.target.value)}/>
             </Form.Item>
             <div>
@@ -267,16 +304,40 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           </Form>
         </Col>
       </Row>
+      {showRSVPList 
+      ? <Row>
+          <Col
+            xs={{ offset: 0, span: 24  }}
+            sm={{ offset: 0, span: 24  }}
+            md={{ offset: 5, span: 14  }}
+            lg={{ offset: 8, span: 8  }}
+            xl={{ offset: 8, span: 8  }}
+          >
+            <List
+              itemLayout="horizontal"
+              dataSource={listData}
+              style={{marginLeft: '3px', marginRight: '3px'}}
+              renderItem={item => (
+                <List.Item onClick={() => loadupRSVPCards(item)}>
+                  <div style={{color: 'white'}}>
+                    {item.firstName} {item.secondName}
+                  </div>
+                </List.Item>
+              )}
+            ></List>
+          </Col>
+        </Row>
+      :<div></div>}
       {rsvpGuestData.length === 2 &&
         <Row justify='center'>
           <Col>
-            <p>Who will be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</p>
+            <p><b>Who will be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</b></p>
           </Col>
         </Row>}
       {rsvpGuestData.length === 1 &&
         <Row justify='center'>
           <Col>
-            <p>Will you be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</p>
+            <p><b>Will you be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</b></p>
           </Col>
         </Row>}
       <Row>
@@ -344,7 +405,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
             </div>
           : <div></div>
           }
-          {!showPlusOneButton
+          {!showPlusOneButton && rsvpGuestData?.length < 2
           ? <Form form={form} name={'plusOneForm'} layout={'vertical'}>
               <Row>
                 <Col span={9}>
@@ -435,6 +496,16 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
                 </TextArea>
                 </Col>
               </Row>
+              {rsvpGuestData[1]?.addedByUser 
+              ? <Row>
+                  <Col>
+                    <br/>
+                    <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne()} okText="Yes" cancelText="No">
+                      <Button>Remove RSVP</Button>
+                    </Popconfirm>
+                  </Col>
+                </Row>
+              : <div></div>}
             </Card>
           : <div></div>}
         </Col>

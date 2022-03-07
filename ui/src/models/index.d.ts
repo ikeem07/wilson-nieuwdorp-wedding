@@ -41,7 +41,6 @@ export declare class Guest {
   readonly email?: string;
   readonly phone?: string;
   readonly createdAt: string;
-  readonly _version?: number;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Guest, GuestMetaData>);
   static copyOf(source: Guest, mutator: (draft: MutableModel<Guest, GuestMetaData>) => MutableModel<Guest, GuestMetaData> | void): Guest;

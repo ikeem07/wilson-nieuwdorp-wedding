@@ -22,5 +22,4 @@ type Guest @model @auth(rules: [{allow: public}]) {
   email: String
   phone: String
   createdAt: AWSDateTime!
-}
-  
+} 
