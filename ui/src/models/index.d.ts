@@ -22,7 +22,6 @@ export declare class RSVP {
   readonly songList?: string;
   readonly plusOne?: boolean;
   readonly addedByUser?: boolean;
-  readonly _version?: number;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<RSVP, RSVPMetaData>);

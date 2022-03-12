@@ -133,7 +133,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 {showRSVP && <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
-                    onClick={() => {setCurrentPage('2'); routeToPage('2')}}
+                    onClick={() => {setCurrentPage('7'); routeToPage('7')}}
                   >
                     <span className={'link-image'}><PictureOutlined /></span>{" "}
                     <span className={'link'}>RSVP</span>
