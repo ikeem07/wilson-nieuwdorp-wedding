@@ -210,13 +210,13 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
     }
   }
 
-  const deletePlusOne = async () => {
+  const deletePlusOne = async (rsvpToDelete: any) => {
     const rsvpDetails = {
-      id: rsvpGuestData[1].id,
+      id: rsvpToDelete.id,
       //_version: rsvpGuestData[1]._version
     };
 
-    const removedGuestArray = rsvpGuestData.filter(guest => guest.id !== rsvpGuestData[1].id)
+    const removedGuestArray = rsvpGuestData.filter(guest => guest.id !== rsvpToDelete.id)
 
     const deletedTodo = await API.graphql({ query: deleteRSVP, variables: {input: rsvpDetails}});
 
@@ -313,13 +313,14 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
             lg={{ offset: 8, span: 8  }}
             xl={{ offset: 8, span: 8  }}
           >
+            <p style={{textAlign: 'center'}}><b>Choose your name from the list below</b></p>
             <List
               itemLayout="horizontal"
               dataSource={listData}
               style={{marginLeft: '3px', marginRight: '3px'}}
               renderItem={item => (
                 <List.Item onClick={() => loadupRSVPCards(item)}>
-                  <div style={{color: 'white'}}>
+                  <div style={{color: 'white', cursor: 'pointer'}}>
                     {item.firstName} {item.secondName}
                   </div>
                 </List.Item>
@@ -385,6 +386,16 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
                 </TextArea>
               </Col>
             </Row>
+            {rsvpGuestData[0]?.addedByUser 
+            ? <Row>
+                <Col>
+                  <br/>
+                  <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne(rsvpGuestData[0])} okText="Yes" cancelText="No">
+                    <Button>Remove RSVP</Button>
+                  </Popconfirm>
+                </Col>
+              </Row>
+            : <div></div>}
           </Card>
         : <div></div>}
       </Col>
@@ -501,7 +512,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
             ? <Row>
                 <Col>
                   <br/>
-                  <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne()} okText="Yes" cancelText="No">
+                  <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne(rsvpGuestData[1])} okText="Yes" cancelText="No">
                     <Button>Remove RSVP</Button>
                   </Popconfirm>
                 </Col>
@@ -671,7 +682,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           ? <Row>
               <Col>
                 <br/>
-                <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne()} okText="Yes" cancelText="No">
+                <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne(rsvpGuestData[1])} okText="Yes" cancelText="No">
                   <Button>Remove RSVP</Button>
                 </Popconfirm>
               </Col>
