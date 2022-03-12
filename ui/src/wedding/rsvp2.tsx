@@ -12,6 +12,7 @@ import {
   List 
 } from 'antd';
 import { PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons';
+import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 import { Helmet } from 'react-helmet';
 import awsExports from '../aws-exports';
 import Amplify, { DataStore, API, graphqlOperation } from 'aws-amplify';
@@ -48,6 +49,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   const [listData, setlistData] = useState<RSVP[]>([]);
 
   const [form] = Form.useForm();
+  const screens = useBreakpoint();
 
   //Queries
   const FIND_RSVP = `
@@ -91,6 +93,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       //setDataVersionGuest2(rsvpGuestData[1]._version as number);
       setAttendingPerson2(rsvpGuestData[1].attending)
       setSongRequestsPerson2(rsvpGuestData[1].songList ?? '')
+      console.log('FIND-ME', rsvpGuestData);
     }
   }, [rsvpGuestData])
 
@@ -112,7 +115,6 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   const updateRSVPRecord = async (
     id: string,
     //_version: number,
-    addedByUser: boolean,
     songList: string,
     attending: boolean,
     guestOne: boolean
@@ -122,7 +124,6 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         input: { 
           id: id, 
           //_version: _version,
-          addedByUser: addedByUser,
           songList: songList,
           attending: attending
         }
@@ -149,7 +150,6 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         await updateRSVPRecord(
           rsvpGuestData[0].id, 
           //dataVersionGuest1,
-          false,
           songRequestsPerson1,
           attendingPerson1,
           true
@@ -161,7 +161,6 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         await updateRSVPRecord(
           rsvpGuestData[0].id,
           //dataVersionGuest1,
-          false,
           songRequestsPerson1,
           attendingPerson1,
           true
@@ -171,7 +170,6 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         await updateRSVPRecord(
           rsvpGuestData[1].id,
           //dataVersionGuest2,
-          false,
           songRequestsPerson2,
           attendingPerson2,
           false
@@ -183,7 +181,6 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       await updateRSVPRecord(
         rsvpGuestData[0].id, 
         //dataVersionGuest1,
-        false,
         songRequestsPerson1,
         attendingPerson1,
         true
@@ -340,183 +337,354 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
             <p><b>Will you be attending our wedding on June 11th, 2022 from 12:30PM to 4PM?</b></p>
           </Col>
         </Row>}
-      <Row>
-        <Col
-          xs={{ span: 1  }}
-          sm={{ span: 3  }}
-          md={{ span: 3  }}
-          lg={{ span: 4  }}
-          xl={{ span: 4  }}
-        ></Col>
-        <Col
-          xs={{ span: 11 }}
-          sm={{ span: 9  }}
-          md={{ span: 9  }}
-          lg={{ span: 8  }}
-          xl={{ span: 8  }}
-        >
-          {rsvpGuestData.length >= 1 
-          ? <Card
-             title={`${rsvpGuestData[0]?.firstName} ${rsvpGuestData[0]?.secondName}`}
-             style={{marginRight: '3px'}}
-            >
-              <Row>
-                <Col>
-                  <Checkbox checked={attendingPerson1} onChange={(e) => setAttendingPerson1(e.target.checked)}>
-                    Attending?
-                  </Checkbox>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  Any song requests for the special day?
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <TextArea
-                    value={songRequestsPerson1}
-                    onChange={(e) => setSongRequestsPerson1(e.target.value)}
-                    rows={4}
-                    style={{width: '30vw', maxWidth: '400px'}}
+      {screens.xxl || screens.xl || screens.lg || screens.md || screens.sm
+      ? <Row>
+      <Col
+        xs={{ span: 1  }}
+        sm={{ span: 3  }}
+        md={{ span: 3  }}
+        lg={{ span: 4  }}
+        xl={{ span: 4  }}
+      ></Col>
+      <Col
+        xs={{ span: 11 }}
+        sm={{ span: 9  }}
+        md={{ span: 9  }}
+        lg={{ span: 8  }}
+        xl={{ span: 8  }}
+      >
+        {rsvpGuestData.length >= 1 
+        ? <Card
+           title={`${rsvpGuestData[0]?.firstName} ${rsvpGuestData[0]?.secondName}`}
+           style={{marginRight: '3px'}}
+          >
+            <Row>
+              <Col>
+                <Checkbox checked={attendingPerson1} onChange={(e) => setAttendingPerson1(e.target.checked)}>
+                  Attending?
+                </Checkbox>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                Any song requests for the special day?
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <TextArea
+                  value={songRequestsPerson1}
+                  onChange={(e) => setSongRequestsPerson1(e.target.value)}
+                  rows={4}
+                  style={{width: '30vw', maxWidth: '400px'}}
 
-                  >
+                >
+                </TextArea>
+              </Col>
+            </Row>
+          </Card>
+        : <div></div>}
+      </Col>
+      <Col
+        xs={{ span: 11  }}
+        sm={{ span: 9  }}
+        md={{ span: 9  }}
+        lg={{ span: 8  }}
+        xl={{ span: 8  }}
+      >
+        {rsvpGuestData[0]?.plusOne && rsvpGuestData?.length < 2 && showPlusOneButton
+        ? <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Button 
+              size='large' 
+              style={{display: 'inline-block',verticalAlign: 'middle'}}
+              onClick={() => addPlusOne()}>
+              <PlusSquareOutlined/>ADD A PLUS ONE
+            </Button>
+          </div>
+        : <div></div>
+        }
+        {!showPlusOneButton && rsvpGuestData?.length < 2
+        ? <Form form={form} name={'plusOneForm'} layout={'vertical'}>
+            <Row>
+              <Col span={9}>
+                <Form.Item
+                  label={'First Name'}
+                  style={{marginRight: '3px'}}
+                >
+                  <Input 
+                    value={plusOneFirstName}
+                    onChange={(e) => setPlusOneFirstName(e.target.value)}
+                  ></Input>
+                </Form.Item>
+              </Col>
+              <Col span={9}>
+                <Form.Item
+                  label={'Last Name'}
+                >
+                  <Input 
+                    value={plusOneSecondName}
+                    onChange={(e) => setPlusOneSecondName(e.target.value)}
+                  ></Input>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={9}>
+                <Form.Item
+                  label={'Attending?'}
+                >
+                  <Checkbox checked={plusOneAttending} onChange={(e) => setPlusOneAttending(e.target.checked)}>
+                  </Checkbox>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  label={'Any song requests for the special day?'}
+                >
+                  <TextArea
+                      value={plusOneSongRequests}
+                      onChange={(e) => setPlusOneSongRequests(e.target.value)}
+                      rows={4}
+                      style={{width: '15vw', maxWidth: '400px'}}
+                    >
                   </TextArea>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Button 
+                  size='large' 
+                  style={{display: 'inline-block',verticalAlign: 'middle'}}
+                  onClick={() => removePlusOne()}
+                  danger
+                >
+                  <MinusSquareOutlined/>REMOVE A PLUS ONE
+                </Button>
+              </div>
+            </Row>
+          </Form>
+        : <></>
+        }
+        {rsvpGuestData.length > 1
+        ? <Card
+            title={`${rsvpGuestData[1]?.firstName} ${rsvpGuestData[1]?.secondName}`}
+            style={{marginLeft: '3px'}}
+          >
+            <Row>
+              <Col>
+                <Checkbox checked={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
+                  Attending?
+                </Checkbox>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                Any song requests for the special day?
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+              <TextArea
+                value={songRequestsPerson2}
+                onChange={(e) => setSongRequestsPerson2(e.target.value)}
+                rows={4}
+                style={{width: '30vw', maxWidth: '400px'}}
+              >
+              </TextArea>
+              </Col>
+            </Row>
+            {rsvpGuestData[1]?.addedByUser 
+            ? <Row>
+                <Col>
+                  <br/>
+                  <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne()} okText="Yes" cancelText="No">
+                    <Button>Remove RSVP</Button>
+                  </Popconfirm>
                 </Col>
               </Row>
-            </Card>
-          : <div></div>}
-        </Col>
-        <Col
-          xs={{ span: 11  }}
-          sm={{ span: 9  }}
-          md={{ span: 9  }}
-          lg={{ span: 8  }}
-          xl={{ span: 8  }}
+            : <div></div>}
+          </Card>
+        : <div></div>}
+      </Col>
+      <Col
+        xs={{ span: 1  }}
+        sm={{ span: 3  }}
+        md={{ span: 3  }}
+        lg={{ span: 4  }}
+        xl={{ span: 4  }}
+      ></Col>
+    </Row>
+    : <Row>
+    <Col
+      xs={{ span: 1  }}
+      sm={{ span: 3  }}
+      md={{ span: 3  }}
+      lg={{ span: 4  }}
+      xl={{ span: 4  }}
+    ></Col>
+    <Col
+      xs={{ span: 22 }}
+      sm={{ span: 18  }}
+      md={{ span: 18  }}
+      lg={{ span: 16  }}
+      xl={{ span: 16  }}
+    >
+      {rsvpGuestData.length >= 1 
+      ? <Card
+         title={`${rsvpGuestData[0]?.firstName} ${rsvpGuestData[0]?.secondName}`}
+         style={{marginRight: '3px'}}
         >
-          {rsvpGuestData[0]?.plusOne && rsvpGuestData?.length < 2 && showPlusOneButton
-          ? <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Row>
+            <Col>
+              <Checkbox checked={attendingPerson1} onChange={(e) => setAttendingPerson1(e.target.checked)}>
+                Attending?
+              </Checkbox>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              Any song requests for the special day?
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <TextArea
+                value={songRequestsPerson1}
+                onChange={(e) => setSongRequestsPerson1(e.target.value)}
+                rows={4}
+                style={{width: '30vw', maxWidth: '400px'}}
+
+              >
+              </TextArea>
+            </Col>
+          </Row>
+        </Card>
+      : <div></div>}
+      <br/>
+      {rsvpGuestData[0]?.plusOne && rsvpGuestData?.length < 2 && showPlusOneButton
+      ? <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Button 
+            size='large' 
+            style={{display: 'inline-block',verticalAlign: 'middle'}}
+            onClick={() => addPlusOne()}>
+            <PlusSquareOutlined/>ADD A PLUS ONE
+          </Button>
+        </div>
+      : <div></div>
+      }
+      {!showPlusOneButton && rsvpGuestData?.length < 2
+      ? <Form form={form} name={'plusOneForm'} layout={'vertical'}>
+          <Row>
+            <Col span={9}>
+              <Form.Item
+                label={'First Name'}
+                style={{marginRight: '3px'}}
+              >
+                <Input 
+                  value={plusOneFirstName}
+                  onChange={(e) => setPlusOneFirstName(e.target.value)}
+                ></Input>
+              </Form.Item>
+            </Col>
+            <Col span={9}>
+              <Form.Item
+                label={'Last Name'}
+              >
+                <Input 
+                  value={plusOneSecondName}
+                  onChange={(e) => setPlusOneSecondName(e.target.value)}
+                ></Input>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={9}>
+              <Form.Item
+                label={'Attending?'}
+              >
+                <Checkbox checked={plusOneAttending} onChange={(e) => setPlusOneAttending(e.target.checked)}>
+                </Checkbox>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label={'Any song requests for the special day?'}
+              >
+                <TextArea
+                    value={plusOneSongRequests}
+                    onChange={(e) => setPlusOneSongRequests(e.target.value)}
+                    rows={4}
+                    style={{width: '15vw', maxWidth: '400px'}}
+                  >
+                </TextArea>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
               <Button 
                 size='large' 
                 style={{display: 'inline-block',verticalAlign: 'middle'}}
-                onClick={() => addPlusOne()}>
-                <PlusSquareOutlined/>ADD A PLUS ONE
+                onClick={() => removePlusOne()}
+                danger
+              >
+                <MinusSquareOutlined/>REMOVE A PLUS ONE
               </Button>
             </div>
-          : <div></div>
-          }
-          {!showPlusOneButton && rsvpGuestData?.length < 2
-          ? <Form form={form} name={'plusOneForm'} layout={'vertical'}>
-              <Row>
-                <Col span={9}>
-                  <Form.Item
-                    label={'First Name'}
-                    style={{marginRight: '3px'}}
-                  >
-                    <Input 
-                      value={plusOneFirstName}
-                      onChange={(e) => setPlusOneFirstName(e.target.value)}
-                    ></Input>
-                  </Form.Item>
-                </Col>
-                <Col span={9}>
-                  <Form.Item
-                    label={'Last Name'}
-                  >
-                    <Input 
-                      value={plusOneSecondName}
-                      onChange={(e) => setPlusOneSecondName(e.target.value)}
-                    ></Input>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={9}>
-                  <Form.Item
-                    label={'Attending?'}
-                  >
-                    <Checkbox checked={plusOneAttending} onChange={(e) => setPlusOneAttending(e.target.checked)}>
-                    </Checkbox>
-                  </Form.Item>
-                </Col>
-                <Col span={12}>
-                  <Form.Item
-                    label={'Any song requests for the special day?'}
-                  >
-                    <TextArea
-                        value={plusOneSongRequests}
-                        onChange={(e) => setPlusOneSongRequests(e.target.value)}
-                        rows={4}
-                        style={{width: '15vw', maxWidth: '400px'}}
-                      >
-                    </TextArea>
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row>
-                <div style={{display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
-                  <Button 
-                    size='large' 
-                    style={{display: 'inline-block',verticalAlign: 'middle'}}
-                    onClick={() => removePlusOne()}
-                    danger
-                  >
-                    <MinusSquareOutlined/>REMOVE A PLUS ONE
-                  </Button>
-                </div>
-              </Row>
-            </Form>
-          : <></>
-          }
-          {rsvpGuestData.length > 1
-          ? <Card
-              title={`${rsvpGuestData[1]?.firstName} ${rsvpGuestData[1]?.secondName}`}
-              style={{marginLeft: '3px'}}
+          </Row>
+        </Form>
+      : <></>
+      }
+      {rsvpGuestData.length > 1
+      ? <Card
+          title={`${rsvpGuestData[1]?.firstName} ${rsvpGuestData[1]?.secondName}`}
+          style={{marginLeft: '3px'}}
+        >
+          <Row>
+            <Col>
+              <Checkbox checked={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
+                Attending?
+              </Checkbox>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              Any song requests for the special day?
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+            <TextArea
+              value={songRequestsPerson2}
+              onChange={(e) => setSongRequestsPerson2(e.target.value)}
+              rows={4}
+              style={{width: '30vw', maxWidth: '400px'}}
             >
-              <Row>
-                <Col>
-                  <Checkbox checked={attendingPerson2} onChange={(e) => setAttendingPerson2(e.target.checked)}>
-                    Attending?
-                  </Checkbox>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  Any song requests for the special day?
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                <TextArea
-                  value={songRequestsPerson2}
-                  onChange={(e) => setSongRequestsPerson2(e.target.value)}
-                  rows={4}
-                  style={{width: '30vw', maxWidth: '400px'}}
-                >
-                </TextArea>
-                </Col>
-              </Row>
-              {rsvpGuestData[1]?.addedByUser 
-              ? <Row>
-                  <Col>
-                    <br/>
-                    <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne()} okText="Yes" cancelText="No">
-                      <Button>Remove RSVP</Button>
-                    </Popconfirm>
-                  </Col>
-                </Row>
-              : <div></div>}
-            </Card>
+            </TextArea>
+            </Col>
+          </Row>
+          {rsvpGuestData[1]?.addedByUser 
+          ? <Row>
+              <Col>
+                <br/>
+                <Popconfirm placement="top" title={`Are you sure you want to delete this RSVP?`} onConfirm={() => deletePlusOne()} okText="Yes" cancelText="No">
+                  <Button>Remove RSVP</Button>
+                </Popconfirm>
+              </Col>
+            </Row>
           : <div></div>}
-        </Col>
-        <Col
-          xs={{ span: 1  }}
-          sm={{ span: 3  }}
-          md={{ span: 3  }}
-          lg={{ span: 4  }}
-          xl={{ span: 4  }}
-        ></Col>
-      </Row>
+        </Card>
+      : <div></div>}
+    </Col>
+    <Col
+      xs={{ span: 1  }}
+      sm={{ span: 3  }}
+      md={{ span: 3  }}
+      lg={{ span: 4  }}
+      xl={{ span: 4  }}
+    ></Col>
+  </Row>}
       <br/>
       {rsvpGuestData.length > 0 && 
         <Row justify='center'>
