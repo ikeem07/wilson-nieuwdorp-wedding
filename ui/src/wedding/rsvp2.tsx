@@ -47,6 +47,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
   const [plusOneSongRequests, setPlusOneSongRequests] = useState<string>('');
   const [showRSVPList, setShowRSVPList] = useState<boolean>(false);
   const [listData, setlistData] = useState<RSVP[]>([]);
+  const [savedText, setSavedText] = useState<string>('');
 
   const [form] = Form.useForm();
   const screens = useBreakpoint();
@@ -155,6 +156,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           true
         )
         
+        setSavedText(' - SAVED');
         message.success('Your RSVP has been saved successfully!');
       } else if (rsvpGuestData.length === 2) {
         //Person 1
@@ -175,6 +177,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
           false
         );
 
+        setSavedText(' - SAVED');
         message.success('Your RSVP has been saved successfully!');
       }
     } else {
@@ -198,6 +201,9 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         }
       }));
 
+      setSavedText(' - SAVED');
+      message.success('Your RSVP has been saved successfully!');
+
       const rsvpsStringify = JSON.stringify(result);
       const rsvpsJSONify = JSON.parse(rsvpsStringify);
       setRsvpGuestData([...rsvpGuestData, rsvpsJSONify.data.createRSVP as RSVP])
@@ -210,14 +216,11 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       //_version: rsvpGuestData[1]._version
     };
 
+    const removedGuestArray = rsvpGuestData.filter(guest => guest.id !== rsvpGuestData[1].id)
+
     const deletedTodo = await API.graphql({ query: deleteRSVP, variables: {input: rsvpDetails}});
 
-    // const result = await API.graphql(graphqlOperation(deleteRSVP, {
-    //   input: {
-    //     id: rsvpGuestData[1].id,
-    //     _version: rsvpGuestData[1]._version
-    //   }
-    // }))
+    setRsvpGuestData(removedGuestArray);
   }
 
   const addPlusOne = () => {
@@ -355,7 +358,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       >
         {rsvpGuestData.length >= 1 
         ? <Card
-           title={`${rsvpGuestData[0]?.firstName} ${rsvpGuestData[0]?.secondName}`}
+           title={`${rsvpGuestData[0]?.firstName} ${rsvpGuestData[0]?.secondName} ${savedText}`}
            style={{marginRight: '3px'}}
           >
             <Row>
@@ -468,7 +471,7 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
         }
         {rsvpGuestData.length > 1
         ? <Card
-            title={`${rsvpGuestData[1]?.firstName} ${rsvpGuestData[1]?.secondName}`}
+            title={`${rsvpGuestData[1]?.firstName} ${rsvpGuestData[1]?.secondName} ${savedText}`}
             style={{marginLeft: '3px'}}
           >
             <Row>
