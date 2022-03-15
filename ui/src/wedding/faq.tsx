@@ -156,9 +156,15 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
               <Col>
                 <p><b>Answer:</b></p>
                 <p>
-                  Ike's recommendation: Jim's on South St.
+                  Ike's recommendation:{' '}
+                  <a href='https://jimssouthstreet.com/'>
+                    Jim's on South St.
+                  </a>
                   <br/>
-                  Joanna's recommendation: Sonny's in Old City
+                  Joanna's recommendation:
+                  <a href='https://sonnyscheesesteaks.com/menu/'>
+                    Sonny's in Old City
+                  </a>
                   <br/>
                   Try them out and let us know!
                 </p>
