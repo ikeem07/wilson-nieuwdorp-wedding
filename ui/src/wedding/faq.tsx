@@ -86,7 +86,7 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
                   <b>
                     Question:
                   </b> {' '}
-                  Where else should we eat?
+                  Where else should I eat other than at the wedding?
                 </p>
               </Col>
             </Row>
