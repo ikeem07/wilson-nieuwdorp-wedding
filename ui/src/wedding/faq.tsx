@@ -26,7 +26,7 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
                 <b>
                   Question:
                 </b> {' '}
-                Do guests need to stay at the Leows Hotel?
+                Do guests need to stay at the Loews Hotel?
               </p>
             </Col>
           </Row>
@@ -36,7 +36,7 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
               <p>
                 No, there are multiple hotel options to choose from. We would suggest staying in Old City, Center City, or Fishtown neighborhoods.
                 <br/>
-                Note: The wedding trolley will only depart to {' & '} from the Leows
+                Note: The wedding trolley will only depart to {' & '} from the Loews
               </p>
             </Col>
           </Row>
@@ -96,15 +96,48 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
                 <p>
                   Here are a few of our favorites
                   <ul>
-                    <li>Middle Child</li>
-                    <li>Mercato</li>
-                    <li>Sampan (where we got engaged)</li>
-                    <li>Sangkee Pecking Duckhouse</li>
+                    <li>
+                      <a href='https://middlechildphilly.com/'>
+                        Middle Child
+                      </a>
+                      </li>
+                    <li>
+                      <a href='https://mercatobyob.com/'>
+                        Mercato
+                      </a>
+                    </li>
+                    <li>
+                      <a href='https://www.sampanphilly.com/'>
+                        Sampan
+                      </a>{' '}
+                      (where we got engaged)
+                    </li>
+                    <li>
+                      <a href='https://www.sangkeechinatown.com/'>
+                        Sangkee Pecking Duckhouse
+                      </a>
+                    </li>
                     <li>Telulas Daily</li>
-                    <li>Federal Donuts</li>
-                    <li>Little Nonnas</li>
-                    <li>Indeblue</li>
-                    <li>Terakawa Ramen</li>
+                    <li>
+                      <a href='https://www.federaldonuts.com/index.html'>
+                        Federal Donuts
+                      </a>{' '}
+                      (East Market)</li>
+                    <li>
+                      <a href='http://littlenonnas.com/'>
+                        Little Nonnas
+                      </a>
+                    </li>
+                    <li>
+                      <a href='https://www.indebluerestaurant.com/'>
+                        Indeblue
+                      </a>
+                    </li>
+                    <li>
+                      <a href='https://terakawaramen.com/'>
+                        Terakawa Ramen
+                      </a>
+                    </li>
                   </ul>
                 </p>
               </Col>

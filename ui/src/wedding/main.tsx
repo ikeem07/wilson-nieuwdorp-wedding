@@ -11,6 +11,12 @@ const Main: FC<RouteComponentProps | any> = (props) => {
     })
   }
 
+  const goToVenue = () => {
+    props.history.push({
+      pathname: ROUTE_PATHS.DIRECTIONS
+    })
+  }
+
   return (
     <>
       <Helmet>
@@ -22,9 +28,13 @@ const Main: FC<RouteComponentProps | any> = (props) => {
           <div style={{fontSize: 'xxx-large', fontFamily: 'Great Vibes'}}>
             Ikeem {' & '} Joanna
           </div>
-          <div style={{maxWidth: '500px', background: 'rgb(0,0,0,0.25)'}}>
+          <div style={{maxWidth: '500px', background: 'rgb(0,0,0,0.33)'}}>
             <p>
-              Please join us at the Sculpture Courtyard for a short outdoor ceremony followed by a cocktail hour
+              Please join us at the {' '}
+              <a onClick={() => goToVenue()}>
+                Sculpture Courtyard
+              </a>{' '}
+              for a short outdoor ceremony followed by a cocktail hour
               and brunch to celebrate our love.
             </p>
             <p>
@@ -35,15 +45,15 @@ const Main: FC<RouteComponentProps | any> = (props) => {
               page.
             </p>
           </div>
-          <p>
+          <p style={{background: 'rgb(0,0,0,0.33)'}}>
             When:
             <br/>
             Saturday, June 11th, 2022
           </p>
-          <p>
+          <p style={{background: 'rgb(0,0,0,0.33)'}}>
             Where:
             <br/>
-            <a href="https://www.google.com/maps/place/The+Sculpture+Courtyard/@39.9763803,-75.1364325,15z/data=!4m5!3m4!1s0x0:0x44c5162f0b634b77!8m2!3d39.9763471!4d-75.1361584">The Sculpture Courtyard</a>
+            <a onClick={() => goToVenue()}>The Sculpture Courtyard</a>
             <br/>
             1714 N Mascher St.
             <br/>
