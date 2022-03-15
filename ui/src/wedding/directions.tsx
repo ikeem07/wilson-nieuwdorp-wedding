@@ -15,7 +15,13 @@ const Directions: FC<RouteComponentProps> = (props) => {
         </Col>
       </Row>
       <Row  style={{paddingLeft: '2px'}}>
-        <Col xs={{ offset: 0, span: 24  }} sm={{ offset: 0, span: 24  }} md={{ offset: 3, span: 18  }} lg={{ offset: 6, span: 12  }} xl={{ offset: 6, span: 12  }}>
+        <Col 
+          xs={{ offset: 0, span: 24  }} 
+          sm={{ offset: 0, span: 24  }} 
+          md={{ offset: 3, span: 18  }} 
+          lg={{ offset: 6, span: 12  }} 
+          xl={{ offset: 6, span: 12  }}
+        >
           <h2>Venue Location</h2>
           <div>The entrance is located accross from Stateside Vodka on N Hancock St.</div>
           <iframe 
