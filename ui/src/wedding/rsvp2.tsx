@@ -9,7 +9,8 @@ import {
   message, 
   Popconfirm, 
   Card,
-  List 
+  List,
+  Alert
 } from 'antd';
 import { PlusSquareOutlined, MinusSquareOutlined } from '@ant-design/icons';
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
@@ -275,6 +276,11 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       <Helmet>
         <title>RSVP</title>
       </Helmet>
+      <Row>
+        <Col span={24} style={{textAlign: 'center'}}>
+          <Alert message="Please RSVP by April 15th, 2022" type="error" />
+        </Col>
+      </Row>
       <Row>
         <Col offset={6} span={12}>
           <div style={{fontSize: 'xxx-large', textAlign: 'center', fontFamily: 'Great Vibes'}}>RSVP</div>

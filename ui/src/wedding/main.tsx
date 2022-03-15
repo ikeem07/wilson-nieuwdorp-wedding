@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
+import { Alert } from 'antd';
 
 const Main: FC<RouteComponentProps | any> = (props) => {
 
@@ -10,9 +11,17 @@ const Main: FC<RouteComponentProps | any> = (props) => {
         <title>Home</title>
       </Helmet>
       <div className={'backgroundImage'} style={{color: 'white', textAlign: 'center', lineHeight: '90vh'}}>
+        <Alert message="Please RSVP by April 15th, 2022" type="error" />
         <div style={{display: 'inline-block', verticalAlign: 'middle', lineHeight: 'normal'}}>
           <div style={{fontSize: 'xxx-large', fontFamily: 'Great Vibes'}}>
             Ikeem {' & '} Joanna
+          </div>
+          <div style={{width: '500px', background: 'rgb(0,0,0,0.25)'}}>
+            <p>
+              Please join us at the Sculpture Courtyard for a short outdoor ceremony followed by a cocktail hour
+              and brunch to celebrate our love.
+            </p>
+            
           </div>
           <p>
             When:
