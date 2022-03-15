@@ -2,8 +2,14 @@ import { FC } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import { Alert } from 'antd';
+import { ROUTE_PATHS } from '../common/constants';
 
 const Main: FC<RouteComponentProps | any> = (props) => {
+  const goToFAQ = () => {
+    props.history.push({
+      pathname: ROUTE_PATHS.FAQ
+    })
+  }
 
   return (
     <>
@@ -16,12 +22,18 @@ const Main: FC<RouteComponentProps | any> = (props) => {
           <div style={{fontSize: 'xxx-large', fontFamily: 'Great Vibes'}}>
             Ikeem {' & '} Joanna
           </div>
-          <div style={{width: '500px', background: 'rgb(0,0,0,0.25)'}}>
+          <div style={{maxWidth: '500px', background: 'rgb(0,0,0,0.25)'}}>
             <p>
               Please join us at the Sculpture Courtyard for a short outdoor ceremony followed by a cocktail hour
               and brunch to celebrate our love.
             </p>
-            
+            <p>
+              For frequently asked questions please checkout our {' '}
+              <a onClick={() => goToFAQ()}>
+                FAQ
+              </a>{' '}
+              page.
+            </p>
           </div>
           <p>
             When:

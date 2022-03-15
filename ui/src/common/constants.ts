@@ -5,5 +5,6 @@ export const ROUTE_PATHS = {
   DIRECTIONS: '/directions',
   PHOTO_VIEWER: '/photo-viewer',
   CONTACT_US: '/contact-us',
-  ACCOMMODATIONS: '/accommodations'
+  ACCOMMODATIONS: '/accommodations',
+  FAQ: '/faq'
 };

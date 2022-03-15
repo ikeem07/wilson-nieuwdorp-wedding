@@ -13,7 +13,9 @@ import {
   PictureFilled,
   PictureOutlined,
   MenuOutlined,
-  GlobalOutlined } from '@ant-design/icons';
+  GlobalOutlined,
+  QuestionCircleFilled
+} from '@ant-design/icons';
 import { mdiCardsPlayingOutline, mdiMapMarkerRadius, mdiMapMarkerRadiusOutline } from '@mdi/js';
 import './App.css';
 import Main from './wedding/main';
@@ -23,6 +25,7 @@ import Accommodations from './wedding/accommodations';
 import Directions from './wedding/directions';
 import PhotoViewer from './wedding/photo-viewer';
 import ContactUs from './wedding/contact-us';
+import FAQ from './wedding/faq';
 import { ROUTE_PATHS } from './common/constants';
 
 const App: FC<RouteComponentProps> = (props) => {
@@ -53,6 +56,9 @@ const App: FC<RouteComponentProps> = (props) => {
         break;
       case ROUTE_PATHS.RSVP2:
         setCurrentPage('7');
+        break;
+      case ROUTE_PATHS.FAQ:
+        setCurrentPage('8');
         break;
       default:
         setCurrentPage('1');
@@ -99,6 +105,11 @@ const App: FC<RouteComponentProps> = (props) => {
       case '7':
         props.history.push({
           pathname: ROUTE_PATHS.RSVP2
+        })
+        break;
+      case '8':
+        props.history.push({
+          pathname: ROUTE_PATHS.FAQ
         })
         break;
     }
@@ -180,6 +191,16 @@ const App: FC<RouteComponentProps> = (props) => {
                     {currentPage === '4' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>
+                <Row>
+                  <span
+                    style={{lineHeight: '35px', fontSize: '20px'}}
+                    onClick={() => {setCurrentPage('8'); routeToPage('8')}}
+                  >
+                    <span className={'link-image'}><QuestionCircleFilled /></span>{" "}
+                    <span className={'link'}>FAQs</span>
+                    {currentPage === '8' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
+                  </span>
+                </Row>
                 {/*<Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
@@ -250,6 +271,15 @@ const App: FC<RouteComponentProps> = (props) => {
                 <span className={'link-image'}><PictureFilled /></span>{" "}
                 <span className={'link'}>Photos</span>
               </span>
+              {" | "}
+              <span
+                className={'hover'}
+                style={currentPage === '8' ? {borderBottom: '3px solid black'} : {}}
+                onClick={() => {setCurrentPage('8'); routeToPage('8')}}
+              >
+                <span className={'link-image'}><QuestionCircleFilled /></span>{" "}
+                <span className={'link'}>FAQs</span>
+              </span>
               {/*{" | "}
               <span
                 className={'hover'}
@@ -287,6 +317,9 @@ const App: FC<RouteComponentProps> = (props) => {
             </Route>
             <Route exact path={ROUTE_PATHS.CONTACT_US}>
               <ContactUs />
+            </Route>
+            <Route exact path={ROUTE_PATHS.FAQ}>
+              <FAQ />  
             </Route>
           </Switch>
         </Content>
