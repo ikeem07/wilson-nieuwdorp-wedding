@@ -130,6 +130,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 onClose={onDrawerClose}
                 visible={drawerVisible}
                 height="auto"
+                width={'70%'}
               >
                 <Row>
                   <span 
