@@ -278,7 +278,12 @@ const RSVP2: FC<RouteComponentProps> = (props) => {
       </Helmet>
       <Row>
         <Col span={24} style={{textAlign: 'center'}}>
-          <Alert message="Please RSVP by April 15th, 2022" type="error" />
+          <Alert message={
+          <>
+            <div>Please RSVP by April 15th, 2022</div>
+            <div style={{color: 'red', fontWeight: 'bold'}}>We are not doing a wedding registry, but you can gift us via Venmo at @Joanna-Nieuwdorp</div>
+          </>
+          } type="error" />
         </Col>
       </Row>
       <Row>

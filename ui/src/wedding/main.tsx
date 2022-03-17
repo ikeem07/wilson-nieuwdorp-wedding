@@ -23,7 +23,12 @@ const Main: FC<RouteComponentProps | any> = (props) => {
         <title>Home</title>
       </Helmet>
       <div className={'backgroundImage'} style={{color: 'white', textAlign: 'center', lineHeight: '90vh'}}>
-        <Alert message="Please RSVP by April 15th, 2022" type="error" />
+        <Alert message={
+        <>
+          <div>Please RSVP by April 15th, 2022</div>
+          <div style={{color: 'red', fontWeight: 'bold'}}>We are not doing a wedding registry, but you can gift us via Venmo at @Joanna-Nieuwdorp</div>
+        </>
+        } type="error" />
         <div style={{display: 'inline-block', verticalAlign: 'middle', lineHeight: 'normal'}}>
           <div style={{fontSize: 'xxx-large', fontFamily: 'Great Vibes'}}>
             Ikeem {' & '} Joanna

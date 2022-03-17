@@ -20,6 +20,34 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
           </Col>
         </Row>
         <div style={{fontSize: '16px'}}>
+        <Row>
+            <Col>
+              <p>
+                <b>
+                  Question:
+                </b> {' '}
+                Do you guys have a wedding registry?
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <p><b>Answer:</b></p>
+              <p>
+                No, but if you would like to leave us with a gift you can Venmo Joanna at @Joanna-Nieuwdorp
+                <br/>
+                Don't have Venmo? Other options are:
+                <ul>
+                  <li>
+                    CashApp: $IkeemWilson
+                  </li>
+                  <li>
+                    Paypal: Ikeem_Wilson@yahoo.com
+                  </li>
+                </ul>
+              </p>
+            </Col>
+          </Row>
           <Row>
             <Col>
               <p>
@@ -59,27 +87,7 @@ const FAQ: FC<RouteComponentProps | any> = (props) => {
               </p>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <p>
-                <b>
-                  Question:
-                </b> {' '}
-                What else can we do while we are in the city?
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <p><b>Answer:</b></p>
-              <p>
-                Please visit some of our favorite places:
-                <br/>
-                Links go here
-              </p>
-            </Col>
-          </Row>
-          <div style={{color: '	#B8B8B8'}}>
+          <div style={{color: '	#dbdbdb'}}>
             <Row>
               <Col>
                 <p>
