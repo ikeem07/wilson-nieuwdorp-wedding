@@ -161,7 +161,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     {currentPage === '7' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
                 </Row>}
-                {showRSVP && <Row>
+                {/* {showRSVP && <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
                     onClick={() => {setCurrentPage('2'); routeToPage('2')}}
@@ -170,7 +170,7 @@ const App: FC<RouteComponentProps> = (props) => {
                     <span className={'link'}>Address Book</span>
                     {currentPage === '2' && <Icon path={mdiCardsPlayingOutline} size={1}/>}
                   </span>
-                </Row>}
+                </Row>} */}
                 <Row>
                   <span
                     style={{lineHeight: '35px', fontSize: '20px'}}
@@ -245,7 +245,7 @@ const App: FC<RouteComponentProps> = (props) => {
               </span>
               }
               {showRSVP && " | "}
-              {showRSVP && <span
+              {/* {showRSVP && <span
                 className={'hover'}
                 style={currentPage === '2' ? {borderBottom: '3px solid black'} : {}}
                 onClick={() => {setCurrentPage('2'); routeToPage('2')}}
@@ -253,7 +253,7 @@ const App: FC<RouteComponentProps> = (props) => {
                 <span className={'link-image'}><PictureFilled /></span>{" "}
                 <span className={'link'}>Address Book</span>
               </span>
-              }
+              } */}
               {showRSVP && " | "}
               <span
                 className={'hover'}
