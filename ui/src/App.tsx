@@ -26,6 +26,7 @@ import Directions from './wedding/directions';
 import PhotoViewer from './wedding/photo-viewer';
 import ContactUs from './wedding/contact-us';
 import FAQ from './wedding/faq';
+import Administration from './wedding/administration';
 import { ROUTE_PATHS } from './common/constants';
 
 const App: FC<RouteComponentProps> = (props) => {
@@ -59,6 +60,9 @@ const App: FC<RouteComponentProps> = (props) => {
         break;
       case ROUTE_PATHS.FAQ:
         setCurrentPage('8');
+        break;
+      case ROUTE_PATHS.ADMINISTRATION:
+        setCurrentPage('9');
         break;
       default:
         setCurrentPage('1');
@@ -110,6 +114,11 @@ const App: FC<RouteComponentProps> = (props) => {
       case '8':
         props.history.push({
           pathname: ROUTE_PATHS.FAQ
+        })
+        break;
+      case '9':
+        props.history.push({
+          pathname: ROUTE_PATHS.ADMINISTRATION
         })
         break;
     }
@@ -321,6 +330,9 @@ const App: FC<RouteComponentProps> = (props) => {
             </Route>
             <Route exact path={ROUTE_PATHS.FAQ}>
               <FAQ />  
+            </Route>
+            <Route exact path={ROUTE_PATHS.ADMINISTRATION}>
+              <Administration />  
             </Route>
           </Switch>
         </Content>

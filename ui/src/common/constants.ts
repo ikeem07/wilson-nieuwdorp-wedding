@@ -6,5 +6,6 @@ export const ROUTE_PATHS = {
   PHOTO_VIEWER: '/photo-viewer',
   CONTACT_US: '/contact-us',
   ACCOMMODATIONS: '/accommodations',
-  FAQ: '/faq'
+  FAQ: '/faq',
+  ADMINISTRATION: '/administration'
 };

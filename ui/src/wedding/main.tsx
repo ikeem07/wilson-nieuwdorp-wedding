@@ -54,6 +54,8 @@ const Main: FC<RouteComponentProps | any> = (props) => {
             When:
             <br/>
             Saturday, June 11th, 2022
+            <br/>
+            12:30 PM - 4:00 PM
           </p>
           <p style={{background: 'rgb(0,0,0,0.33)'}}>
             Where:
