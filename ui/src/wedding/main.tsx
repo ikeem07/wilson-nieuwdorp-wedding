@@ -62,7 +62,7 @@ const Main: FC<RouteComponentProps | any> = (props) => {
             <br/>
             <a onClick={() => goToVenue()}>The Sculpture Courtyard</a>
             <br/>
-            1714 N Mascher St.
+            1717 N Hancock St.
             <br/>
             Philadelphia, PA 19122
           </p>
